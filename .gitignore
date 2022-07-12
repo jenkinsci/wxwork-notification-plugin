@@ -16,3 +16,6 @@ work
 
 # Disable github worflow
 .github
+
+# Ignore resource bundle Messages
+Messages.java

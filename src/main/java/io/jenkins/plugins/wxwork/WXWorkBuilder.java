@@ -17,6 +17,7 @@ import lombok.Setter;
 import org.jenkinsci.Symbol;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,6 +58,11 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
      */
     private String title;
 
+    /**
+     * 消息内容
+     */
+    private List<String> text;
+
     @Override
     public void perform(
             @NonNull Run<?, ?> run,
@@ -79,7 +85,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
         @NonNull
         @Override
         public String getDisplayName() {
-            return "WXWork";
+            return Messages.displayName();
         }
     }
 }
