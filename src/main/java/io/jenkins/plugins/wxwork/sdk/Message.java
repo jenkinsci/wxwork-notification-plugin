@@ -14,7 +14,7 @@ public interface Message {
      *
      * @return
      */
-    MessageType msgType();
+    MessageType messageType();
 
     /**
      * <p>toJson</p>

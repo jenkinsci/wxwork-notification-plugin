@@ -15,17 +15,15 @@ public abstract class AbstractMessage implements Message {
     /**
      * <p>消息类型</p>
      */
-    protected String msgType;
+    protected final MessageType msgType;
 
-    public AbstractMessage() {
-        this.msgType = "" + msgType();
+    public AbstractMessage(MessageType msgType) {
+        this.msgType = msgType;
     }
 
-    abstract protected MessageType messageType();
-
     @Override
-    public MessageType msgType() {
-        return messageType();
+    public MessageType messageType() {
+        return msgType;
     }
 
     @Override

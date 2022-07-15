@@ -28,7 +28,6 @@ import java.util.Set;
  * @author nekoimi 2022/07/12
  * @see <a href="https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win">https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win</a>
  *
- * https://github.com/threedr3am/wxwork-sdk-utils
  */
 @Getter
 @Setter
