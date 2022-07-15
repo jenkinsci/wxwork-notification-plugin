@@ -10,7 +10,7 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
-import io.jenkins.plugins.wxwork.enums.MsgType;
+import io.jenkins.plugins.wxwork.enums.MessageType;
 import jenkins.tasks.SimpleBuildStep;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +43,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     /**
      * 消息类型
      */
-    private MsgType type;
+    private MessageType type;
 
     /**
      * "@"成员列表，填写企业微信成员手机号
