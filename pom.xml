@@ -16,8 +16,10 @@
     <url>https://github.com/nekoimi/wxwork-plugin</url>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.version>3.8.3</maven.version>
+        <java.version>1.8</java.version>
+        <maven.version>3.8.5</maven.version>
+        <plugin.minimumJavaVersion>8</plugin.minimumJavaVersion>
+        <hpi.compatibleSinceVersion>2.0.0</hpi.compatibleSinceVersion>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.319.3</jenkins.version>
         <gitHubRepo>nekoimi/wxwork-plugin</gitHubRepo>
@@ -118,22 +120,22 @@
 
     <repositories>
         <repository>
-            <id>aliyun-public</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-        <repository>
             <id>repo.jenkins-ci.org</id>
             <url>https://repo.jenkins-ci.org/public/</url>
+        </repository>
+        <repository>
+            <id>aliyun-public</id>
+            <url>https://maven.aliyun.com/repository/public</url>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>aliyun-public</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </pluginRepository>
-        <pluginRepository>
             <id>repo.jenkins-ci.org</id>
             <url>https://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>aliyun-public</id>
+            <url>https://maven.aliyun.com/repository/public</url>
         </pluginRepository>
     </pluginRepositories>
 </project>

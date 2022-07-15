@@ -2,6 +2,7 @@ package io.jenkins.plugins.wxwork.sdk.message;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.sdk.Message;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -18,6 +19,11 @@ public abstract class AtMessage extends AbstractMessage {
         super(msgType);
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
     public static class AtMessageBody {
         /**
          * <p>文本内容，最长不超过2048个字节，必须是utf8编码</p>
@@ -29,38 +35,6 @@ public abstract class AtMessage extends AbstractMessage {
          * <p>手机号列表，提醒手机号对应的群成员(@某个成员)，@all表示提醒所有人</p>
          */
         private Set<String> mentionedMobileList;
-
-        public AtMessageBody() {
-        }
-
-        public AtMessageBody(String content, Set<String> mentionedMobileList) {
-            this.content = content;
-            this.mentionedMobileList = mentionedMobileList;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public Set<String> getMentionedMobileList() {
-            return mentionedMobileList;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-
-        public void setMentionedMobileList(Set<String> mentionedMobileList) {
-            this.mentionedMobileList = mentionedMobileList;
-        }
-
-        @Override
-        public String toString() {
-            return "Body{" +
-                    "content='" + content + '\'' +
-                    ", mentionedMobileList=" + mentionedMobileList +
-                    '}';
-        }
     }
 
     public abstract static class AtMessageBuilder {
