@@ -14,14 +14,14 @@ import org.kohsuke.stapler.StaplerRequest;
 /**
  * <p>Jenkins用户扩展信息</p>
  * <p>
- * 扩展用户手机号信息，支持使用手机号"@"企业微信用户
+ *
  *
  * @author nekoimi 2022/07/12
  */
 @Getter
 public class WXWorkUserExtensionProperty extends UserProperty {
     /**
-     * 企业微信用户手机号
+     * 扩展企业微信用户手机号信息，支持使用手机号"@"企业微信用户
      */
     private String mobile;
 
