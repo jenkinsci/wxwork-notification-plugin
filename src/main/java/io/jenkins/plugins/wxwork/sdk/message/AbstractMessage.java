@@ -1,7 +1,10 @@
 package io.jenkins.plugins.wxwork.sdk.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.sdk.Message;
+import io.jenkins.plugins.wxwork.utils.JsonUtils;
+import lombok.Getter;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -11,10 +14,12 @@ import java.util.Optional;
  *
  * @author nekoimi 2022/07/15
  */
+@Getter
 public abstract class AbstractMessage implements Message {
     /**
      * <p>消息类型</p>
      */
+    @JsonProperty("msgtype")
     protected final MessageType msgType;
 
     public AbstractMessage(MessageType msgType) {
@@ -28,7 +33,7 @@ public abstract class AbstractMessage implements Message {
 
     @Override
     public String toJson() {
-        return "toJson";
+        return JsonUtils.toJson(this);
     }
 
     @Override

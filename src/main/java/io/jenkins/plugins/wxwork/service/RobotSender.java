@@ -3,11 +3,11 @@ package io.jenkins.plugins.wxwork.service;
 import io.jenkins.plugins.wxwork.sdk.Message;
 
 /**
- * <p>WXWorkSender</p>
+ * <p>RobotSender</p>
  *
  * @author nekoimi 2022/07/15
  */
-public interface WXWorkSender {
+public interface RobotSender {
 
     /**
      * <p>发送消息</p>

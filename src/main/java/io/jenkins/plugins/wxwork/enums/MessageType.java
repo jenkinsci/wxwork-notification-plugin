@@ -1,5 +1,7 @@
 package io.jenkins.plugins.wxwork.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * <p>消息类型</p>
  *
@@ -36,6 +38,7 @@ public enum MessageType {
      */
     TEMPLATE_CARD("template_card");
 
+    @JsonValue
     private final String value;
 
     MessageType(String value) {
