@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
+import java.io.IOException;
+
 /**
  * <p>JsonMapper</p>
  *
@@ -29,6 +31,15 @@ public class JsonUtils {
         try {
             return instance.readValue(json, clazz);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <T> T toBean(byte[] jsonBytes, Class<T> clazz) {
+        try {
+            return instance.readValue(jsonBytes, clazz);
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
