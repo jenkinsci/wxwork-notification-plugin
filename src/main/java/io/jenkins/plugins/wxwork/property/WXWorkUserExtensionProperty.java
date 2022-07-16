@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.config;
+package io.jenkins.plugins.wxwork.property;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;

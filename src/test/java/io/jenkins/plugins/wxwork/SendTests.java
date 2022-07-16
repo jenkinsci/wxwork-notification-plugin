@@ -1,6 +1,6 @@
 package io.jenkins.plugins.wxwork;
 
-import io.jenkins.plugins.wxwork.config.WXWorkRobotProperty;
+import io.jenkins.plugins.wxwork.property.WXWorkRobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;

@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.config;
+package io.jenkins.plugins.wxwork.property;
 
 import hudson.Extension;
 import hudson.model.Describable;
