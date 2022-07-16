@@ -20,4 +20,11 @@ public interface HttpResponse {
      * @return
      */
     byte[] body();
+
+    /**
+     * <p>异常消息</p>
+     *
+     * @return
+     */
+    String errorMessage();
 }

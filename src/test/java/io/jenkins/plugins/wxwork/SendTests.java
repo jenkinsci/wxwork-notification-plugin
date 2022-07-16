@@ -1,5 +1,6 @@
 package io.jenkins.plugins.wxwork;
 
+import io.jenkins.plugins.wxwork.message.MarkdownMessage;
 import io.jenkins.plugins.wxwork.property.WXWorkRobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
@@ -16,8 +17,12 @@ public class SendTests {
 
     public static void main(String[] args) {
         RobotProperty property = new WXWorkRobotProperty("id", "name", "");
-        RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功").atAll().build();
-        RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, message);
+        RobotRequest text = TextMessage.builder().content("企业微信机器人测试成功").atAll().build();
+        RobotRequest markdown = MarkdownMessage.builder().content("> 项目名称 \n" +
+                "> 状态: 成功 \n" +
+                "> 地址: https://www.baidu.com \n").atAll().build();
+        System.out.println(markdown.toJson());
+        RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, text);
         if (robotResponse != null && robotResponse.isOk()) {
             // ok
             System.out.println("OK");

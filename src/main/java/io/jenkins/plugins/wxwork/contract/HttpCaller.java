@@ -1,5 +1,7 @@
 package io.jenkins.plugins.wxwork.contract;
 
+import java.io.IOException;
+
 /**
  * <p>RequestCall</p>
  *

@@ -1,8 +1,7 @@
 package io.jenkins.plugins.wxwork.factory;
 
 import io.jenkins.plugins.wxwork.contract.HttpCaller;
-import io.jenkins.plugins.wxwork.contract.HttpRequest;
-import io.jenkins.plugins.wxwork.contract.HttpResponse;
+import io.jenkins.plugins.wxwork.httpclient.DefaultHttpClient;
 
 /**
  * <p>HttpCallFactory</p>
@@ -11,12 +10,12 @@ import io.jenkins.plugins.wxwork.contract.HttpResponse;
  */
 public class HttpCallFactory {
 
+    /**
+     * <p>use default http caller</p>
+     *
+     * @return
+     */
     public static HttpCaller make() {
-        return new HttpCaller() {
-            @Override
-            public HttpResponse call(HttpRequest request) {
-                return null;
-            }
-        };
+        return new DefaultHttpClient();
     }
 }
