@@ -1,8 +1,8 @@
-package io.jenkins.plugins.wxwork.sdk.message;
+package io.jenkins.plugins.wxwork.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.sdk.Message;
+import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.utils.JsonUtils;
 import lombok.Getter;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author nekoimi 2022/07/15
  */
 @Getter
-public abstract class AbstractMessage implements Message {
+public abstract class AbstractMessage implements RobotRequest {
     /**
      * <p>消息类型</p>
      */

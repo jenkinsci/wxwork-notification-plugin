@@ -1,6 +1,4 @@
-package io.jenkins.plugins.wxwork.service;
-
-import io.jenkins.plugins.wxwork.sdk.Message;
+package io.jenkins.plugins.wxwork.contract;
 
 /**
  * <p>RobotSender</p>
@@ -12,7 +10,7 @@ public interface RobotSender {
     /**
      * <p>发送消息</p>
      *
-     * @param message
+     * @param request
      */
-    void send(Message message);
+    RobotResponse send(RobotProperty property, RobotRequest request);
 }

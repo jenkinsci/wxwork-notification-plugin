@@ -1,0 +1,7 @@
+version: "3.6"
+services:
+  jenkins:
+    image: jenkins/jenkins:2.319-jdk8
+    ports:
+      - "8080:8080"
+    restart: on-failure

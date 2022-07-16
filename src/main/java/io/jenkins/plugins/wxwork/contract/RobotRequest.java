@@ -1,13 +1,13 @@
-package io.jenkins.plugins.wxwork.sdk;
+package io.jenkins.plugins.wxwork.contract;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
 
 /**
- * <p>RobotMessage</p>
+ * <p>RobotRequest</p>
  *
  * @author nekoimi 2022/07/15
  */
-public interface Message {
+public interface RobotRequest {
 
     /**
      * <p>消息类型</p>

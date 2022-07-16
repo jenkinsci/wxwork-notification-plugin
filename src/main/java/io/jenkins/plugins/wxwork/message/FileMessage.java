@@ -1,7 +1,7 @@
-package io.jenkins.plugins.wxwork.sdk.message;
+package io.jenkins.plugins.wxwork.message;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.sdk.Message;
+import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import lombok.*;
 
 /**
@@ -45,7 +45,7 @@ public class FileMessage extends AbstractMessage {
             return this;
         }
 
-        public Message build() {
+        public RobotRequest build() {
             return new FileMessage(new File(mediaId));
         }
     }

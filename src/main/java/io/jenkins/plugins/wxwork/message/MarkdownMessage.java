@@ -1,7 +1,7 @@
-package io.jenkins.plugins.wxwork.sdk.message;
+package io.jenkins.plugins.wxwork.message;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.sdk.Message;
+import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -35,7 +35,7 @@ public class MarkdownMessage extends AtMessage {
     public static class Builder extends AtMessageBuilder {
 
         @Override
-        protected Message messageBuild(AtMessageBody body) {
+        protected RobotRequest messageBuild(AtMessageBody body) {
             return new MarkdownMessage(body);
         }
     }

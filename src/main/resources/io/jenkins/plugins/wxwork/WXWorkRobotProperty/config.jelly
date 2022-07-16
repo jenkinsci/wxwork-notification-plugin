@@ -1,0 +1,32 @@
+<?jelly escape-by-default='true'?>
+
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
+         xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:dt="/lib/wxwork">
+
+    <dt:blockWrapper class="dt-robot-config" style="width: 100%;">
+
+        <f:entry title="id" field="id">
+            <f:textbox/>
+        </f:entry>
+        <f:entry title="名称" field="name">
+            <f:textbox/>
+        </f:entry>
+        <f:entry title="webhook" field="webhook">
+            <f:textbox/>
+        </f:entry>
+
+        <f:block>
+            <input type="button" value="测试" class="validate-button" style="float:right"
+                   data-validate-button-descriptor-url="${descriptor.descriptorFullUrl}"
+                   data-validate-button-method="test"
+                   data-validate-button-with="${with}"
+                   onclick="sendRobotTest(this)"/>
+            <div style="display:none;">
+                <img src="${imagesURL}/spinner.gif"/>
+                ${attrs.progress}
+            </div>
+            <div><!-- this is where the error message goes --></div>
+        </f:block>
+
+    </dt:blockWrapper>
+</j:jelly>

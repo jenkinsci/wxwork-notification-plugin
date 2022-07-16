@@ -1,7 +1,7 @@
-package io.jenkins.plugins.wxwork.sdk.message;
+package io.jenkins.plugins.wxwork.message;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.sdk.Message;
+import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import lombok.*;
 
 import java.util.HashSet;
@@ -56,7 +56,7 @@ public abstract class AtMessage extends AbstractMessage {
          * @param body
          * @return
          */
-        abstract protected Message messageBuild(AtMessageBody body);
+        abstract protected RobotRequest messageBuild(AtMessageBody body);
 
         public AtMessageBuilder content(String content) {
             this.content = content;
@@ -73,7 +73,13 @@ public abstract class AtMessage extends AbstractMessage {
             return this;
         }
 
-        public Message build() {
+        public AtMessageBuilder atAll() {
+            this.mentionedMobileList.clear();
+            this.mentionedMobileList.add("@all");
+            return this;
+        }
+
+        public RobotRequest build() {
             return messageBuild(new AtMessageBody(content, mentionedMobileList));
         }
     }
