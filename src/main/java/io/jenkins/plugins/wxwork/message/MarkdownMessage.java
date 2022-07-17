@@ -2,8 +2,7 @@ package io.jenkins.plugins.wxwork.message;
 
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * <p>MarkdownMessage</p>
@@ -12,18 +11,18 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class MarkdownMessage extends AtMessage {
+public class MarkdownMessage extends AbstractMessage {
 
     /**
      * <p>markdown消息内容</p>
      */
-    private AtMessageBody markdown = new AtMessageBody();
+    private Markdown markdown = new Markdown();
 
     public MarkdownMessage() {
         super(MessageType.MARKDOWN);
     }
 
-    public MarkdownMessage(AtMessageBody markdown) {
+    public MarkdownMessage(Markdown markdown) {
         super(MessageType.MARKDOWN);
         this.markdown = markdown;
     }
@@ -32,11 +31,28 @@ public class MarkdownMessage extends AtMessage {
         return new Builder();
     }
 
-    public static class Builder extends AtMessageBuilder {
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @ToString
+    public static class Markdown {
+        /**
+         * <p>markdown内容，最长不超过4096个字节，必须是utf8编码</p>
+         */
+        private String content;
+    }
 
-        @Override
-        protected RobotRequest messageBuild(AtMessageBody body) {
-            return new MarkdownMessage(body);
+    public static class Builder {
+        private String content;
+
+        public Builder content(String content) {
+            this.content = content;
+            return this;
+        }
+
+        public RobotRequest build() {
+            return new MarkdownMessage(new Markdown(content));
         }
     }
 }

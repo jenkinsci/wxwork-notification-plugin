@@ -20,7 +20,7 @@ public class SendTests {
         RobotRequest text = TextMessage.builder().content("企业微信机器人测试成功").atAll().build();
         RobotRequest markdown = MarkdownMessage.builder().content("> 项目名称 \n" +
                 "> 状态: 成功 \n" +
-                "> 地址: https://www.baidu.com \n").atAll().build();
+                "> 地址: https://www.baidu.com \n").build();
         System.out.println(markdown.toJson());
         RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, text);
         if (robotResponse != null && robotResponse.isOk()) {
