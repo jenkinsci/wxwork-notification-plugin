@@ -21,8 +21,8 @@
 
         <f:block>
             <input type="button" value="测试" class="validate-button" style="float:right"
-                   data-url="${descriptor.descriptorFullUrl}"
-                   data-method="test"
+                   data-request-url="${descriptor.descriptorFullUrl}"
+                   data-request-method="test"
                    data-validate-button-with="${with}"
                    onclick="sendRobotTest(this)"/>
             <div style="display:none;">

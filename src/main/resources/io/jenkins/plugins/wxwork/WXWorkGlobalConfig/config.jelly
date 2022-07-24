@@ -1,0 +1,25 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:dt="/lib/wxwork">
+
+    <f:section title="企业微信">
+        <f:block>
+            <j:scope>
+                <j:set var="robotPropertyList" value="${instance.getRobotPropertyList()}"/>
+                <j:set var="robotPropertyDescriptor" value="${descriptor.getWXWorkRobotPropertyDescriptor()}"/>
+                <f:repeatable
+                        header="机器人"
+                        field="robotPropertyList"
+                        varStatus="item"
+                        items="robotPropertyList">
+                    <st:include page="config.jelly" class="${robotPropertyDescriptor.clazz}"/>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <f:repeatableDeleteButton/>
+                    </div>
+                </f:repeatable>
+            </j:scope>
+        </f:block>
+
+    </f:section>
+
+</j:jelly>
