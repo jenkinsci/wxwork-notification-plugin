@@ -27,9 +27,7 @@ node {
 }
 ```
 
-### Doc
-
-[文档点这里！](https://github.com/nekoimi/wxwork-plugin/wiki)
+详细使用参考文档：[文档点这里！](https://github.com/nekoimi/wxwork-plugin/wiki)
 
 ### LICENSE
 
