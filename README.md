@@ -4,7 +4,20 @@
 
 WXWork for jenkins
 
-### Document
+### Quick start
+
+```groovy
+wxwork(
+    robot: 'ID',
+    type: 'TEXT',
+    text: [
+        'hello',
+        'world'
+    ]
+)
+```
+
+### Doc
 
 [文档点这里！](https://github.com/nekoimi/wxwork-plugin/wiki)
 
