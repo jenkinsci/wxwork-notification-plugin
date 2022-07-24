@@ -13,6 +13,15 @@ import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
 public abstract class AbstractRobotSender implements RobotSender {
 
     /**
+     * <p>包装request</p>
+     *
+     * @param property
+     * @param request
+     * @return
+     */
+    abstract protected HttpRequest wrapRequest(@NotNull RobotProperty property, @NotNull RobotRequest request);
+
+    /**
      * <p>包装response</p>
      *
      * @param httpResponse
@@ -22,6 +31,6 @@ public abstract class AbstractRobotSender implements RobotSender {
 
     @Override
     public RobotResponse send(@NotNull RobotProperty property, @NotNull RobotRequest request) {
-        return wrapResponse(HttpCallFactory.make().call(WXWorkRobotRequest.of(property, request)));
+        return wrapResponse(HttpCallFactory.make().call(wrapRequest(property, request)));
     }
 }
