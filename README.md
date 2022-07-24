@@ -14,14 +14,16 @@ WXWork for jenkins
 node {
 
     stage('Send WXWork') {
+        
         wxwork(
-                robot: 'ID',
-                type: 'TEXT',
-                text: [
-                        'hello',
-                        'world'
-                ]
+            robot: 'ID',
+            type: 'TEXT',
+            text: [
+                'hello',
+                'world'
+            ]
         )
+        
     }
 
 }
