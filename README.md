@@ -6,15 +6,25 @@ WXWork for jenkins
 
 ### Quick start
 
+- Jenkinsfile
+
 ```groovy
-wxwork(
-    robot: 'ID',
-    type: 'TEXT',
-    text: [
-        'hello',
-        'world'
-    ]
-)
+#!groovy
+
+node {
+
+    stage('Send WXWork') {
+        wxwork(
+                robot: 'ID',
+                type: 'TEXT',
+                text: [
+                        'hello',
+                        'world'
+                ]
+        )
+    }
+
+}
 ```
 
 ### Doc
