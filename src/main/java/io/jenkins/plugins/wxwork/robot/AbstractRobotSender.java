@@ -1,6 +1,5 @@
 package io.jenkins.plugins.wxwork.robot;
 
-import com.sun.istack.internal.NotNull;
 import io.jenkins.plugins.wxwork.contract.*;
 import io.jenkins.plugins.wxwork.factory.HttpCallFactory;
 import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
@@ -19,7 +18,7 @@ public abstract class AbstractRobotSender implements RobotSender {
      * @param request
      * @return
      */
-    abstract protected HttpRequest wrapRequest(@NotNull RobotProperty property, @NotNull RobotRequest request);
+    abstract protected HttpRequest wrapRequest(RobotProperty property, RobotRequest request);
 
     /**
      * <p>包装response</p>
@@ -27,10 +26,10 @@ public abstract class AbstractRobotSender implements RobotSender {
      * @param httpResponse
      * @return
      */
-    abstract protected RobotResponse wrapResponse(@NotNull HttpResponse httpResponse);
+    abstract protected RobotResponse wrapResponse(HttpResponse httpResponse);
 
     @Override
-    public RobotResponse send(@NotNull RobotProperty property, @NotNull RobotRequest request) {
+    public RobotResponse send(RobotProperty property, RobotRequest request) {
         return wrapResponse(HttpCallFactory.make().call(wrapRequest(property, request)));
     }
 }

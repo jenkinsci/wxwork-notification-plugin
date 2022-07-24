@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.property;
+package io.jenkins.plugins.wxwork;
 
 import hudson.Extension;
 import hudson.model.Describable;
@@ -83,9 +83,9 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
          * @return
          */
         public FormValidation doCheckId(@QueryParameter String id) {
-            if (StrUtils.isBlank(id)) {
-                return FormValidation.error("机器人ID不能为空");
-            }
+//            if (StrUtils.isBlank(id)) {
+//                return FormValidation.error("机器人ID不能为空");
+//            }
             return FormValidation.ok();
         }
 

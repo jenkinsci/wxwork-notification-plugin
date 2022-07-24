@@ -1,7 +1,6 @@
 package io.jenkins.plugins.wxwork;
 
 import hudson.Extension;
-import io.jenkins.plugins.wxwork.property.WXWorkRobotProperty;
 import jenkins.model.GlobalConfiguration;
 import jenkins.model.Jenkins;
 import lombok.Getter;

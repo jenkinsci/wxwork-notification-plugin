@@ -5,7 +5,8 @@ import hudson.model.Cause;
 import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.model.User;
-import io.jenkins.plugins.wxwork.property.WXWorkUserExtensionProperty;
+import io.jenkins.plugins.wxwork.WXWorkUserExtensionProperty;
+import io.jenkins.plugins.wxwork.model.RunUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class JenkinsUtils {
      * @param listener
      * @return
      */
-    public static Map<String, String> getRunUser(Run<?, ?> run, TaskListener listener) {
+    public static RunUser getRunUser(Run<?, ?> run, TaskListener listener) {
         Cause.UserIdCause userIdCause = run.getCause(Cause.UserIdCause.class);
         // 执行人信息
         User user = null;
@@ -45,9 +46,7 @@ public class JenkinsUtils {
                 listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
             }
         }
-        Map<String, String> result = new HashMap<>(16);
-        result.put("name", executorName);
-        result.put("mobile", executorMobile);
-        return result;
+        RunUser runUser = new RunUser(executorName, executorMobile);
+        return runUser;
     }
 }

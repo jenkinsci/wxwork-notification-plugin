@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.property;
+package io.jenkins.plugins.wxwork;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -6,7 +6,6 @@ import hudson.Extension;
 import hudson.model.User;
 import hudson.model.UserProperty;
 import hudson.model.UserPropertyDescriptor;
-import io.jenkins.plugins.wxwork.Messages;
 import lombok.Getter;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;

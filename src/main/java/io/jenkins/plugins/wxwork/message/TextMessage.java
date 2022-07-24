@@ -75,7 +75,9 @@ public class TextMessage extends AbstractMessage {
         }
 
         public Builder addAt(String mobile) {
-            this.mentionedMobileList.add(mobile);
+            if (mobile != null && mobile.length() > 0) {
+                this.mentionedMobileList.add(mobile);
+            }
             return this;
         }
 

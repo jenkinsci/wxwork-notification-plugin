@@ -16,8 +16,9 @@ import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import io.jenkins.plugins.wxwork.contract.RobotSender;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.message.TextMessage;
-import io.jenkins.plugins.wxwork.property.WXWorkRobotProperty;
+import io.jenkins.plugins.wxwork.model.RunUser;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
+import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
 import io.jenkins.plugins.wxwork.utils.StrUtils;
 import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
@@ -28,9 +29,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>WXWorkBuilder</p>
@@ -59,7 +58,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     /**
      * "@"成员列表，填写企业微信成员手机号
      */
-    private Set<String> at;
+    private Set<String> at = new HashSet<>();
 
     /**
      * 是否"@"所有人
@@ -74,7 +73,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     /**
      * 消息内容
      */
-    private List<String> text;
+    private List<String> text = new ArrayList<>();
 
     private final String rootUrl = Jenkins.get().getRootUrl();
 
@@ -86,17 +85,17 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     }
 
     @DataBoundSetter
-    public void setType(MessageType type) {
+    public void setType(String type) {
         if (type == null) {
-            type = MessageType.TEXT;
+            type = "TEXT";
         }
-        this.type = type;
+        this.type = MessageType.valueOf(type);
     }
 
     @DataBoundSetter
-    public void setAt(Set<String> at) {
+    public void setAt(List<String> at) {
         if (at != null && !at.isEmpty()) {
-            this.at = at;
+            this.at = new HashSet<>(at);
         }
     }
 
@@ -123,6 +122,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
             @NonNull Launcher launcher,
             @NonNull TaskListener listener) throws InterruptedException, IOException {
         List<WXWorkRobotProperty> robotPropertyList = WXWorkGlobalConfig.instance().getRobotPropertyList();
+        RunUser runUser = JenkinsUtils.getRunUser(run, listener);
         RobotProperty property = null;
         RobotRequest robotRequest = null;
         for (WXWorkRobotProperty robotProperty : robotPropertyList) {
@@ -136,6 +136,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
             if (!at.isEmpty()) {
                 builder = builder.at(at);
             }
+            builder = builder.addAt(runUser.getMobile());
             if (atAll) {
                 builder = builder.atAll();
             }
