@@ -16,7 +16,7 @@ public class SendTests {
 
     public static void main(String[] args) {
         RobotProperty property = new WXWorkRobotProperty("id", "name", "");
-        RobotRequest text = TextMessage.builder().content("企业微信机器人测试成功").atAll().build();
+        RobotRequest text = TextMessage.builder().content("企业微信机器人测试成功").atAll(true).build();
         RobotRequest markdown = MarkdownMessage.builder().content("> 项目名称 \n" +
                 "> 状态: 成功 \n" +
                 "> 地址: https://www.baidu.com \n").build();

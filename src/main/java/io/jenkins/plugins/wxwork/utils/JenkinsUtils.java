@@ -1,15 +1,13 @@
 package io.jenkins.plugins.wxwork.utils;
 
 import groovy.util.logging.Slf4j;
-import hudson.model.Cause;
-import hudson.model.Run;
-import hudson.model.TaskListener;
-import hudson.model.User;
+import hudson.EnvVars;
+import hudson.model.*;
 import io.jenkins.plugins.wxwork.WXWorkUserExtensionProperty;
+import io.jenkins.plugins.wxwork.model.JobModel;
 import io.jenkins.plugins.wxwork.model.RunUser;
+import jenkins.model.Jenkins;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +17,34 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class JenkinsUtils {
+
+    /**
+     * <p>获取构建信息</p>
+     *
+     * @param run
+     * @param env
+     * @param listener
+     * @return
+     */
+    public static JobModel getJobModel(String buildEnv, Run<?, ?> run, EnvVars env, TaskListener listener) {
+        Job<?, ?> job = run.getParent();
+        // 项目信息
+        String projectName = job.getFullDisplayName();
+        String projectUrl = job.getAbsoluteUrl();
+        // Job信息
+        String jobName = run.getDisplayName();
+        String jobUrl = Jenkins.get().getRootUrl() + run.getUrl();
+        // 执行人信息
+        RunUser runUser = getRunUser(run, listener);
+        return JobModel.builder()
+                .projectName(projectName)
+                .projectUrl(projectUrl)
+                .jobName(jobName)
+                .jobUrl(jobUrl)
+                .executorName(runUser.getName())
+                .buildEnv(buildEnv)
+                .build();
+    }
 
     /**
      * <p>获取执行用户</p>
@@ -46,7 +72,9 @@ public class JenkinsUtils {
                 listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
             }
         }
-        RunUser runUser = new RunUser(executorName, executorMobile);
-        return runUser;
+        return RunUser.builder()
+                .name(executorName)
+                .mobile(executorMobile)
+                .build();
     }
 }

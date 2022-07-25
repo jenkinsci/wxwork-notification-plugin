@@ -10,6 +10,7 @@ import org.kohsuke.stapler.DataBoundSetter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>WXWorkGlobalConfig</p>
@@ -48,6 +49,21 @@ public class WXWorkGlobalConfig extends GlobalConfiguration {
     @DataBoundSetter
     public void setRobotPropertyList(List<WXWorkRobotProperty> robotPropertyList) {
         this.robotPropertyList = robotPropertyList;
+    }
+
+    /**
+     * <p>获取指定ID的机器人配置信息</p>
+     *
+     * @param robotId
+     * @return
+     */
+    public WXWorkRobotProperty getRobotPropertyById(String robotId) {
+        for (WXWorkRobotProperty robotProperty : robotPropertyList) {
+            if (Objects.equals(robotProperty.getId(), robotId)) {
+                return robotProperty;
+            }
+        }
+        return null;
     }
 
     /**

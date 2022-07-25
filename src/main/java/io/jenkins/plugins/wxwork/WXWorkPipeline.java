@@ -15,11 +15,12 @@ import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import io.jenkins.plugins.wxwork.contract.RobotSender;
 import io.jenkins.plugins.wxwork.enums.MessageType;
+import io.jenkins.plugins.wxwork.message.MarkdownMessage;
 import io.jenkins.plugins.wxwork.message.TextMessage;
+import io.jenkins.plugins.wxwork.model.JobModel;
 import io.jenkins.plugins.wxwork.model.RunUser;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
 import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
-import io.jenkins.plugins.wxwork.utils.StrUtils;
 import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import lombok.Getter;
@@ -29,21 +30,23 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
- * <p>WXWorkBuilder</p>
+ * <p>Pipeline支持</p>
  * <p>
  * 企业微信机器人文档：
  *
  * @author nekoimi 2022/07/12
  * @see <a href="https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win">https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win</a>
- *
  */
 @Getter
 @Setter
 @SuppressWarnings("unused")
-public class WXWorkBuilder extends Builder implements SimpleBuildStep {
+public class WXWorkPipeline extends Builder implements SimpleBuildStep {
 
     /**
      * 机器人ID
@@ -53,7 +56,7 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     /**
      * 消息类型
      */
-    private MessageType type;
+    private MessageType type = MessageType.TEXT;
 
     /**
      * "@"成员列表，填写企业微信成员手机号
@@ -63,33 +66,39 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     /**
      * 是否"@"所有人
      */
-    private boolean atAll;
+    private boolean atAll = false;
 
     /**
-     * 消息标题
+     * <p>构建环境</p>
      */
-    private String title;
+    private String buildEnv = "";
 
     /**
      * 消息内容
      */
     private List<String> text = new ArrayList<>();
 
+    /**
+     * <p>Jenkins地址</p>
+     */
     private final String rootUrl = Jenkins.get().getRootUrl();
 
+    /**
+     * <p>机器人推送</p>
+     */
     private final RobotSender robotSender = WXWorkRobotSender.instance();
 
     @DataBoundConstructor
-    public WXWorkBuilder(String robot) {
+    public WXWorkPipeline(String robot) {
         this.robot = robot;
     }
 
     @DataBoundSetter
     public void setType(String type) {
         if (type == null) {
-            type = "TEXT";
+            type = "text";
         }
-        this.type = MessageType.valueOf(type);
+        this.type = MessageType.typeValueOf(type);
     }
 
     @DataBoundSetter
@@ -105,8 +114,8 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
     }
 
     @DataBoundSetter
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBuildEnv(String buildEnv) {
+        this.buildEnv = buildEnv;
     }
 
     @DataBoundSetter
@@ -121,46 +130,39 @@ public class WXWorkBuilder extends Builder implements SimpleBuildStep {
             @NonNull EnvVars env,
             @NonNull Launcher launcher,
             @NonNull TaskListener listener) throws InterruptedException, IOException {
-        List<WXWorkRobotProperty> robotPropertyList = WXWorkGlobalConfig.instance().getRobotPropertyList();
         RunUser runUser = JenkinsUtils.getRunUser(run, listener);
-        RobotProperty property = null;
-        RobotRequest robotRequest = null;
-        for (WXWorkRobotProperty robotProperty : robotPropertyList) {
-            if (Objects.equals(robot, robotProperty.getId())) {
-                property = new WXWorkRobotProperty(robotProperty.getId(), robotProperty.getName(),
-                        robotProperty.getWebhook());
-            }
-        }
-        if (type == MessageType.TEXT) {
-            TextMessage.Builder builder = TextMessage.builder();
-            if (!at.isEmpty()) {
-                builder = builder.at(at);
-            }
-            builder = builder.addAt(runUser.getMobile());
-            if (atAll) {
-                builder = builder.atAll();
-            }
-            StringBuilder contentBuilder = new StringBuilder();
-            if (StrUtils.isNotBlank(title)) {
-                contentBuilder.append(title);
-                contentBuilder.append("\n");
-            }
-            if (!text.isEmpty()) {
-                text.forEach(t -> contentBuilder.append(t).append("\n"));
-            }
-            robotRequest = builder.content(contentBuilder.toString()).build();
-        }
+        JobModel jobModel = JenkinsUtils.getJobModel(buildEnv, run, env, listener);
+        RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
         if (property == null) {
-            listener.error("机器人配置找不到!");
+            listener.error("机器人[%s]配置找不到!", robot);
+            return;
+        }
+        RobotRequest robotRequest;
+        StringBuilder contentBuilder = new StringBuilder();
+        if (type == MessageType.MARKDOWN) {
+            contentBuilder.append(jobModel.asMarkdown()).append("\n");
+            for (String s : text) {
+                contentBuilder.append(s).append("\n");
+            }
+            robotRequest = MarkdownMessage.builder()
+                    .content(contentBuilder.toString())
+                    .build();
+        } else if (type == MessageType.TEXT) {
+            for (String s : text) {
+                contentBuilder.append(s).append("\n");
+            }
+            robotRequest = TextMessage.builder()
+                    .at(at)
+                    .addAt(runUser.getMobile())
+                    .atAll(atAll)
+                    .content(contentBuilder.toString())
+                    .build();
+        } else {
+            listener.error("消息类型[%s]不支持", type);
             return;
         }
 
-        if (robotRequest == null) {
-            listener.error("消息类型不受支持!");
-            return;
-        }
-
-        RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, robotRequest);
+        RobotResponse robotResponse = robotSender.send(property, robotRequest);
         if (robotResponse != null && robotResponse.isOk()) {
             // OK
             // System.out.println("OK");

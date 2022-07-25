@@ -125,7 +125,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
          */
         public FormValidation doTest(@QueryParameter("id") String id, @QueryParameter("name") String name, @QueryParameter("webhook") String webhook) {
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
-            RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功").atAll().build();
+            RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功").atAll(true).build();
             RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, message);
             if (robotResponse != null && robotResponse.isOk()) {
                 // ok

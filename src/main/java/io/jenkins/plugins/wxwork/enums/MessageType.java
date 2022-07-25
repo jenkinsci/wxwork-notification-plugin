@@ -45,6 +45,16 @@ public enum MessageType {
         this.value = value;
     }
 
+    public static MessageType typeValueOf(String typeStr) {
+        for (MessageType messageType : values()) {
+            if (messageType.getValue().equalsIgnoreCase(typeStr)) {
+                return messageType;
+            }
+        }
+        // Returns default message type.
+        return MessageType.TEXT;
+    }
+
     public String getValue() {
         return value;
     }
