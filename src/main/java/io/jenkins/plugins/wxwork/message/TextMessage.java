@@ -82,8 +82,10 @@ public class TextMessage extends AbstractMessage {
         }
 
         public Builder atAll(boolean atAll) {
-            this.mentionedMobileList.clear();
-            this.mentionedMobileList.add("@all");
+            if (atAll) {
+                this.mentionedMobileList.clear();
+                this.mentionedMobileList.add("@all");
+            }
             return this;
         }
 

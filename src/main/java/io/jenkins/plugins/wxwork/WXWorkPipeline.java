@@ -140,22 +140,19 @@ public class WXWorkPipeline extends Builder implements SimpleBuildStep {
         RobotRequest robotRequest;
         StringBuilder contentBuilder = new StringBuilder();
         if (type == MessageType.MARKDOWN) {
-            contentBuilder.append(jobModel.asMarkdown()).append("\n");
-            for (String s : text) {
-                contentBuilder.append(s).append("\n");
-            }
+            contentBuilder
+                    .append(jobModel.asMarkdown())
+                    .append("\n")
+                    .append(String.join("\n", text));
             robotRequest = MarkdownMessage.builder()
                     .content(contentBuilder.toString())
                     .build();
         } else if (type == MessageType.TEXT) {
-            for (String s : text) {
-                contentBuilder.append(s).append("\n");
-            }
             robotRequest = TextMessage.builder()
                     .at(at)
                     .addAt(runUser.getMobile())
                     .atAll(atAll)
-                    .content(contentBuilder.toString())
+                    .content(String.join("\n", text))
                     .build();
         } else {
             listener.error("消息类型[%s]不支持", type);
