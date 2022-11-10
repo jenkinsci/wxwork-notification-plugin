@@ -49,6 +49,8 @@ public class WXWorkGlobalConfig extends GlobalConfiguration {
     @DataBoundSetter
     public void setRobotPropertyList(List<WXWorkRobotProperty> robotPropertyList) {
         this.robotPropertyList = robotPropertyList;
+        // 保存配置到xml
+        this.save();
     }
 
     /**

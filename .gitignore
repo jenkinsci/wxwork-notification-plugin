@@ -20,3 +20,4 @@ work
 # Ignore resource bundle Messages
 Messages.java
 test.groovy
+.data

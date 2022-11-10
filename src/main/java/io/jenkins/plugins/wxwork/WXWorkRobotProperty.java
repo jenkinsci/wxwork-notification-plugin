@@ -48,7 +48,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
 
     @DataBoundConstructor
     public WXWorkRobotProperty(String id, String name, String webhook) {
-        this.id = StrUtils.isBlank(id) ? DigestUtils.md5hex(webhook) : id;
+        this.id = id;
         this.name = name;
         this.webhook = webhook;
     }
@@ -83,9 +83,9 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
          * @return
          */
         public FormValidation doCheckId(@QueryParameter String id) {
-//            if (StrUtils.isBlank(id)) {
-//                return FormValidation.error("机器人ID不能为空");
-//            }
+            if (StrUtils.isBlank(id)) {
+                return FormValidation.error("机器人ID不能为空");
+            }
             return FormValidation.ok();
         }
 
