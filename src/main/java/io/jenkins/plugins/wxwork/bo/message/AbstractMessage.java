@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.message;
+package io.jenkins.plugins.wxwork.bo.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.jenkins.plugins.wxwork.enums.MessageType;

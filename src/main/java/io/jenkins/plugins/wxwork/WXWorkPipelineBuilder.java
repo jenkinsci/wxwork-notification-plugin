@@ -10,18 +10,16 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
+import io.jenkins.plugins.wxwork.bo.RobotPipelineBo;
+import io.jenkins.plugins.wxwork.bo.RunUser;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import io.jenkins.plugins.wxwork.contract.RobotSender;
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.message.MarkdownMessage;
-import io.jenkins.plugins.wxwork.message.TextMessage;
-import io.jenkins.plugins.wxwork.model.JobModel;
-import io.jenkins.plugins.wxwork.model.RunUser;
+import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
 import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
-import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,7 +44,7 @@ import java.util.Set;
 @Getter
 @Setter
 @SuppressWarnings("unused")
-public class WXWorkPipeline extends Builder implements SimpleBuildStep {
+public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
 
     /**
      * 机器人ID
@@ -59,29 +57,29 @@ public class WXWorkPipeline extends Builder implements SimpleBuildStep {
     private MessageType type = MessageType.TEXT;
 
     /**
+     * 是否"@"我自己(当前构建执行人)
+     */
+    private Boolean atMe = false;
+
+    /**
+     * 是否"@"所有人
+     */
+    private Boolean atAll = false;
+
+    /**
      * "@"成员列表，填写企业微信成员手机号
      */
     private Set<String> at = new HashSet<>();
 
     /**
-     * 是否"@"所有人
-     */
-    private boolean atAll = false;
-
-    /**
-     * <p>构建环境</p>
-     */
-    private String buildEnv = "";
-
-    /**
-     * 消息内容
+     * Text/Markdown消息内容
      */
     private List<String> text = new ArrayList<>();
 
     /**
-     * <p>Jenkins地址</p>
+     * Image消息图片地址
      */
-    private final String rootUrl = Jenkins.get().getRootUrl();
+    private String imageUrl;
 
     /**
      * <p>机器人推送</p>
@@ -89,15 +87,12 @@ public class WXWorkPipeline extends Builder implements SimpleBuildStep {
     private final RobotSender robotSender = WXWorkRobotSender.instance();
 
     @DataBoundConstructor
-    public WXWorkPipeline(String robot) {
+    public WXWorkPipelineBuilder(String robot) {
         this.robot = robot;
     }
 
     @DataBoundSetter
     public void setType(String type) {
-        if (type == null) {
-            type = "text";
-        }
         this.type = MessageType.typeValueOf(type);
     }
 
@@ -109,18 +104,23 @@ public class WXWorkPipeline extends Builder implements SimpleBuildStep {
     }
 
     @DataBoundSetter
-    public void setAtAll(boolean atAll) {
-        this.atAll = atAll;
+    public void setAtMe(Boolean atMe) {
+        this.atMe = atMe;
     }
 
     @DataBoundSetter
-    public void setBuildEnv(String buildEnv) {
-        this.buildEnv = buildEnv;
+    public void setAtAll(Boolean atAll) {
+        this.atAll = atAll;
     }
 
     @DataBoundSetter
     public void setText(List<String> text) {
         this.text = text;
+    }
+
+    @DataBoundSetter
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
@@ -130,45 +130,31 @@ public class WXWorkPipeline extends Builder implements SimpleBuildStep {
             @NonNull EnvVars env,
             @NonNull Launcher launcher,
             @NonNull TaskListener listener) throws InterruptedException, IOException {
-        RunUser runUser = JenkinsUtils.getRunUser(run, listener);
-        JobModel jobModel = JenkinsUtils.getJobModel(buildEnv, run, env, listener);
         RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
         if (property == null) {
             listener.error("机器人[%s]配置找不到!", robot);
             return;
         }
-        RobotRequest robotRequest;
-        StringBuilder contentBuilder = new StringBuilder();
-        if (type == MessageType.MARKDOWN) {
-            contentBuilder
-                    .append(jobModel.asMarkdown())
-                    .append("\n")
-                    .append(String.join("\n", text));
-            robotRequest = MarkdownMessage.builder()
-                    .content(contentBuilder.toString())
-                    .build();
-        } else if (type == MessageType.TEXT) {
-            robotRequest = TextMessage.builder()
-                    .at(at)
-                    .addAt(runUser.getMobile())
-                    .atAll(atAll)
-                    .content(String.join("\n", text))
-                    .build();
-        } else {
-            listener.error("消息类型[%s]不支持", type);
+        String runRootPath = run.getRootDir().getAbsolutePath();
+        RunUser runUser = JenkinsUtils.getRunUser(run, listener);
+        RobotPipelineBo pipelineBo = RobotPipelineBo.builder()
+                .robot(this.robot).type(this.type).atMe(this.atMe).atAll(this.atAll)
+                .at(this.at).text(this.text).imageUrl(this.imageUrl)
+                .runUser(runUser).runRootPath(runRootPath).build();
+        RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineBo);
+        if (robotRequest == null) {
+            listener.error("不支持的消息类型!");
             return;
         }
-
         RobotResponse robotResponse = robotSender.send(property, robotRequest);
         if (robotResponse != null && robotResponse.isOk()) {
-            // OK
-            // System.out.println("OK");
+            listener.getLogger().println("WXWORK: 推送微信机器人消息成功!");
         } else {
             listener.error(robotResponse.errorMessage());
         }
     }
 
-    @Symbol("wxwork")
+    @Symbol({"wxwork", "wxWork"})
     @Extension
     public final static class WXWorkDescriptorImpl extends BuildStepDescriptor<Builder> {
 

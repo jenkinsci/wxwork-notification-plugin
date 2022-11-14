@@ -1,10 +1,10 @@
 package io.jenkins.plugins.wxwork;
 
-import io.jenkins.plugins.wxwork.message.MarkdownMessage;
+import io.jenkins.plugins.wxwork.bo.message.MarkdownMessage;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
-import io.jenkins.plugins.wxwork.message.TextMessage;
+import io.jenkins.plugins.wxwork.bo.message.TextMessage;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
 
 /**

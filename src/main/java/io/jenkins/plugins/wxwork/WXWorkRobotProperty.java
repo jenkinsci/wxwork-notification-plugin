@@ -8,7 +8,7 @@ import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
-import io.jenkins.plugins.wxwork.message.TextMessage;
+import io.jenkins.plugins.wxwork.bo.message.TextMessage;
 import io.jenkins.plugins.wxwork.utils.DigestUtils;
 import io.jenkins.plugins.wxwork.utils.StrUtils;
 import jenkins.model.Jenkins;

@@ -1,8 +1,7 @@
 package io.jenkins.plugins.wxwork.robot;
 
 import io.jenkins.plugins.wxwork.contract.*;
-import io.jenkins.plugins.wxwork.factory.HttpCallFactory;
-import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
+import io.jenkins.plugins.wxwork.factory.HttpClientFactory;
 
 /**
  * <p>AbstractRobotSender</p>
@@ -30,6 +29,6 @@ public abstract class AbstractRobotSender implements RobotSender {
 
     @Override
     public RobotResponse send(RobotProperty property, RobotRequest request) {
-        return wrapResponse(HttpCallFactory.make().call(wrapRequest(property, request)));
+        return wrapResponse(HttpClientFactory.make().send(wrapRequest(property, request)));
     }
 }

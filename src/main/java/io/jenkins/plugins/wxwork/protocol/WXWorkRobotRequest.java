@@ -30,15 +30,6 @@ public class WXWorkRobotRequest implements HttpRequest {
      */
     protected RobotRequest request;
 
-    /**
-     * @param property
-     * @param request
-     * @return
-     */
-    public static HttpRequest of(RobotProperty property, RobotRequest request) {
-        return new WXWorkRobotRequest(property, request);
-    }
-
     @Override
     public HttpMethod method() {
         return HttpMethod.POST;

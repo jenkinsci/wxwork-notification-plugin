@@ -14,7 +14,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendResponse implements RobotResponse {
+public class WXWorkRobotResponse implements RobotResponse {
 
     /**
      * <p>响应业务码</p>

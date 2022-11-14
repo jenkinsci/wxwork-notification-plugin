@@ -1,7 +1,7 @@
-package io.jenkins.plugins.wxwork.message;
+package io.jenkins.plugins.wxwork.bo.message;
 
-import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
+import io.jenkins.plugins.wxwork.enums.MessageType;
 import lombok.*;
 
 import java.util.HashSet;

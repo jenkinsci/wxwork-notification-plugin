@@ -21,22 +21,7 @@ public enum MessageType {
     /**
      * 图片消息
      */
-    IMAGE("image"),
-
-    /**
-     * 图文消息
-     */
-    NEWS("news"),
-
-    /**
-     * 文件消息
-     */
-    FILE("file"),
-
-    /**
-     * 模板卡片
-     */
-    TEMPLATE_CARD("template_card");
+    IMAGE("image");
 
     @JsonValue
     private final String value;
@@ -51,8 +36,7 @@ public enum MessageType {
                 return messageType;
             }
         }
-        // Returns default message type.
-        return MessageType.TEXT;
+        return null;
     }
 
     public String getValue() {

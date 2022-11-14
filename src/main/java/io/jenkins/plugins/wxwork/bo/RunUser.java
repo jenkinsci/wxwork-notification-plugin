@@ -1,4 +1,4 @@
-package io.jenkins.plugins.wxwork.model;
+package io.jenkins.plugins.wxwork.bo;
 
 import lombok.*;
 

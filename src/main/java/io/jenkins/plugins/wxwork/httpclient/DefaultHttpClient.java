@@ -1,6 +1,6 @@
 package io.jenkins.plugins.wxwork.httpclient;
 
-import io.jenkins.plugins.wxwork.contract.HttpCaller;
+import io.jenkins.plugins.wxwork.contract.HttpClient;
 import io.jenkins.plugins.wxwork.contract.HttpRequest;
 import io.jenkins.plugins.wxwork.contract.HttpResponse;
 import io.jenkins.plugins.wxwork.protocol.DefaultHttpResponse;
@@ -22,10 +22,10 @@ import java.util.zip.GZIPInputStream;
  *
  * @author nekoimi 2022/07/16
  */
-public class DefaultHttpClient implements HttpCaller {
+public class DefaultHttpClient implements HttpClient {
 
     @Override
-    public HttpResponse call(HttpRequest request) {
+    public HttpResponse send(HttpRequest request) {
         DefaultHttpResponse defaultHttpResponse = new DefaultHttpResponse();
         HttpURLConnection connection = null;
         try {

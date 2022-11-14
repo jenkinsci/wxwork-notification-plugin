@@ -1,7 +1,7 @@
 package io.jenkins.plugins.wxwork.robot;
 
 import io.jenkins.plugins.wxwork.contract.*;
-import io.jenkins.plugins.wxwork.protocol.SendResponse;
+import io.jenkins.plugins.wxwork.protocol.WXWorkRobotResponse;
 import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
 import io.jenkins.plugins.wxwork.utils.JsonUtils;
 
@@ -22,14 +22,14 @@ public class WXWorkRobotSender extends AbstractRobotSender {
 
     @Override
     protected HttpRequest wrapRequest(RobotProperty property, RobotRequest request) {
-        return WXWorkRobotRequest.of(property, request);
+        return new WXWorkRobotRequest(property, request);
     }
 
     @Override
     protected RobotResponse wrapResponse(HttpResponse httpResponse) {
         if (httpResponse.statusCode() != 200) {
-            return new SendResponse(httpResponse.statusCode(), httpResponse.errorMessage());
+            return new WXWorkRobotResponse(httpResponse.statusCode(), httpResponse.errorMessage());
         }
-        return JsonUtils.toBean(httpResponse.body(), SendResponse.class);
+        return JsonUtils.toBean(httpResponse.body(), WXWorkRobotResponse.class);
     }
 }
