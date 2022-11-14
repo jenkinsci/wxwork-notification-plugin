@@ -10,7 +10,7 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
-import io.jenkins.plugins.wxwork.bo.RobotPipelineBo;
+import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.bo.RunUser;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
@@ -135,20 +135,19 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
             listener.error("机器人[%s]配置找不到!", robot);
             return;
         }
-        String runRootPath = run.getRootDir().getAbsolutePath();
         RunUser runUser = JenkinsUtils.getRunUser(run, listener);
-        RobotPipelineBo pipelineBo = RobotPipelineBo.builder()
+        RobotPipelineVars pipelineVars = RobotPipelineVars.builder()
                 .robot(this.robot).type(this.type).atMe(this.atMe).atAll(this.atAll)
-                .at(this.at).text(this.text).imageUrl(this.imageUrl)
-                .runUser(runUser).runRootPath(runRootPath).build();
-        RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineBo);
+                .at(this.at).text(this.text).imageUrl(this.imageUrl).runUser(runUser)
+                .env(env).workspace(workspace).listener(listener).build();
+        RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineVars);
         if (robotRequest == null) {
-            listener.error("不支持的消息类型!");
+            listener.error("不支持的消息!");
             return;
         }
         RobotResponse robotResponse = robotSender.send(property, robotRequest);
         if (robotResponse != null && robotResponse.isOk()) {
-            listener.getLogger().println("WXWORK: 推送微信机器人消息成功!");
+            listener.getLogger().println("WXWORK: 微信机器人[" + property.name() + "]推送消息成功!");
         } else {
             listener.error(robotResponse.errorMessage());
         }

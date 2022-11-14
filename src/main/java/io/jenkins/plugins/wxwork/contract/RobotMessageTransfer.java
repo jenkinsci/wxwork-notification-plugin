@@ -1,10 +1,10 @@
 package io.jenkins.plugins.wxwork.contract;
 
-import io.jenkins.plugins.wxwork.bo.RobotPipelineBo;
+import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 
 /**
- * <p>RobotMessageAdapter</p>
+ * <p>RobotMessageTransfer</p>
  *
  * @author nekoimi 2022/11/14
  */
@@ -21,8 +21,8 @@ public interface RobotMessageTransfer {
     /**
      * <p>生成机器人请求消息</p>
      *
-     * @param pipelineBo
+     * @param pipelineVars
      * @return
      */
-    RobotRequest transferRobotRequest(RobotPipelineBo pipelineBo);
+    RobotRequest transferRobotRequest(RobotPipelineVars pipelineVars);
 }

@@ -1,10 +1,10 @@
 package io.jenkins.plugins.wxwork.bo;
 
+import hudson.EnvVars;
+import hudson.FilePath;
+import hudson.model.TaskListener;
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,15 +12,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p>InputParamBo</p>
+ * <p>RobotPipelineVars</p>
  *
  * @author nekoimi 2022/11/14
  */
 @Data
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RobotPipelineBo {
+public class RobotPipelineVars {
     /**
      * 机器人ID
      */
@@ -62,7 +63,17 @@ public class RobotPipelineBo {
     private RunUser runUser;
 
     /**
-     * 当前工作绝对路径
+     * 环境变量
      */
-    private String runRootPath;
+    private EnvVars env;
+
+    /**
+     * workspace
+     */
+    private FilePath workspace;
+
+    /**
+     * taskListener
+     */
+    private TaskListener listener;
 }

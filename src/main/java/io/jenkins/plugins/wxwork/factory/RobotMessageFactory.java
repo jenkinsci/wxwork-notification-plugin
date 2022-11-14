@@ -1,6 +1,6 @@
 package io.jenkins.plugins.wxwork.factory;
 
-import io.jenkins.plugins.wxwork.bo.RobotPipelineBo;
+import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.contract.RobotMessageTransfer;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.transfer.ImageMessageTransfer;
@@ -21,7 +21,7 @@ public class RobotMessageFactory {
     private RobotMessageFactory() {
     }
 
-    public static RobotRequest makeRobotRequest(RobotPipelineBo pipelineBo) {
+    public static RobotRequest makeRobotRequest(RobotPipelineVars pipelineBo) {
         for (RobotMessageTransfer messageTransfer : messageTransferProvider) {
             if (messageTransfer.supports(pipelineBo.getType())) {
                 return messageTransfer.transferRobotRequest(pipelineBo);

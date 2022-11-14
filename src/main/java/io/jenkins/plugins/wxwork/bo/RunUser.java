@@ -9,9 +9,9 @@ import lombok.*;
  */
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class RunUser {
     private String name;
     private String mobile;

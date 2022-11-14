@@ -1,6 +1,6 @@
 package io.jenkins.plugins.wxwork.transfer;
 
-import io.jenkins.plugins.wxwork.bo.RobotPipelineBo;
+import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.bo.message.TextMessage;
 import io.jenkins.plugins.wxwork.contract.RobotMessageTransfer;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
@@ -23,16 +23,16 @@ public class TextMessageTransfer implements RobotMessageTransfer {
     }
 
     @Override
-    public RobotRequest transferRobotRequest(RobotPipelineBo pipelineBo) {
+    public RobotRequest transferRobotRequest(RobotPipelineVars pipelineVars) {
         TextMessage.Builder builder = TextMessage.builder();
-        builder.at(pipelineBo.getAt());
-        if (Boolean.TRUE.equals(pipelineBo.getAtMe())) {
-            builder.addAt(pipelineBo.getRunUser().getMobile());
+        builder.at(pipelineVars.getAt());
+        if (Boolean.TRUE.equals(pipelineVars.getAtMe())) {
+            builder.addAt(pipelineVars.getRunUser().getMobile());
         }
-        if (Boolean.TRUE.equals(pipelineBo.getAtAll())) {
+        if (Boolean.TRUE.equals(pipelineVars.getAtAll())) {
             builder.atAll(true);
         }
-        List<String> textList = pipelineBo.getText();
+        List<String> textList = pipelineVars.getText();
         List<String> textCollect = textList.stream().filter(StrUtils::isNotBlank).collect(Collectors.toList());
         builder.content(String.join("\n", textCollect));
         return builder.build();
