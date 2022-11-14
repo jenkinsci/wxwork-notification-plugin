@@ -10,7 +10,7 @@
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>wxwork-notifications</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>WXWork Plugin</name>
     <url>https://github.com/nekoimi/wxwork-plugin</url>
