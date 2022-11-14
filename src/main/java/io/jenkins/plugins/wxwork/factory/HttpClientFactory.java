@@ -18,7 +18,7 @@ public class HttpClientFactory {
      *
      * @return
      */
-    public static HttpClient make() {
+    public static HttpClient defaultInstance() {
         return new DefaultHttpClient();
     }
 }

@@ -7,6 +7,9 @@ package io.jenkins.plugins.wxwork.utils;
  */
 public class MarkdownColor {
 
+    private MarkdownColor() {
+    }
+
     /**
      * <p>绿色字体消息</p>
      *

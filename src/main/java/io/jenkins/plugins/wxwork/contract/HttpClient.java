@@ -2,14 +2,14 @@ package io.jenkins.plugins.wxwork.contract;
 
 
 /**
- * <p>RequestCall</p>
+ * <p>HttpClient</p>
  *
  * @author nekoimi 2022/07/16
  */
 public interface HttpClient {
 
     /**
-     * <p>Call remote</p>
+     * <p>send</p>
      *
      * @param request
      * @return

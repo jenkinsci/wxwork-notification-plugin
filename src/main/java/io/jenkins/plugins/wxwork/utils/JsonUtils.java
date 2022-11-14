@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import java.io.IOException;
 
 /**
- * <p>JsonMapper</p>
+ * <p>JsonUtils</p>
  *
  * @author nekoimi 2022/07/16
  */
@@ -15,6 +15,9 @@ public class JsonUtils {
     private static final ObjectMapper instance = new ObjectMapper();
     static {
         instance.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    }
+
+    private JsonUtils() {
     }
 
     public static String toJson(Object object) {

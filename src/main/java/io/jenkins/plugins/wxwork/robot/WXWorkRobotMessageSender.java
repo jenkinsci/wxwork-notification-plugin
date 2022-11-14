@@ -6,18 +6,18 @@ import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
 import io.jenkins.plugins.wxwork.utils.JsonUtils;
 
 /**
- * <p>WXWorkRobotSender</p>
+ * <p>WXWorkRobotMessageSender</p>
  *
  * @author nekoimi 2022/07/15
  */
-public class WXWorkRobotSender extends AbstractRobotSender {
+public class WXWorkRobotMessageSender extends AbstractRobotMessageSender {
 
-    public static RobotSender instance() {
-        return SingletonHolder.robotSender;
+    public static RobotMessageSender instance() {
+        return SingletonHolder.robotMessageSender;
     }
 
     private static class SingletonHolder {
-        private static final RobotSender robotSender = new WXWorkRobotSender();
+        private static final RobotMessageSender robotMessageSender = new WXWorkRobotMessageSender();
     }
 
     @Override

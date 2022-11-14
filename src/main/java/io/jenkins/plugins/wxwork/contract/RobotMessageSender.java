@@ -1,11 +1,11 @@
 package io.jenkins.plugins.wxwork.contract;
 
 /**
- * <p>RobotSender</p>
+ * <p>RobotMessageSender</p>
  *
  * @author nekoimi 2022/07/15
  */
-public interface RobotSender {
+public interface RobotMessageSender {
 
     /**
      * <p>发送消息</p>

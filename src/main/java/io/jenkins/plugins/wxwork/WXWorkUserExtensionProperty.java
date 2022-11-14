@@ -22,7 +22,7 @@ public class WXWorkUserExtensionProperty extends UserProperty {
     /**
      * 扩展企业微信用户手机号信息，支持使用手机号"@"企业微信用户
      */
-    private String mobile;
+    private final String mobile;
 
     public WXWorkUserExtensionProperty(String mobile) {
         this.mobile = mobile;

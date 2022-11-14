@@ -4,11 +4,11 @@ import io.jenkins.plugins.wxwork.contract.*;
 import io.jenkins.plugins.wxwork.factory.HttpClientFactory;
 
 /**
- * <p>AbstractRobotSender</p>
+ * <p>AbstractRobotMessageSender</p>
  *
  * @author nekoimi 2022/07/16
  */
-public abstract class AbstractRobotSender implements RobotSender {
+public abstract class AbstractRobotMessageSender implements RobotMessageSender {
 
     /**
      * <p>包装request</p>
@@ -29,6 +29,6 @@ public abstract class AbstractRobotSender implements RobotSender {
 
     @Override
     public RobotResponse send(RobotProperty property, RobotRequest request) {
-        return wrapResponse(HttpClientFactory.make().send(wrapRequest(property, request)));
+        return wrapResponse(HttpClientFactory.defaultInstance().send(wrapRequest(property, request)));
     }
 }

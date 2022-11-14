@@ -8,7 +8,7 @@ import io.jenkins.plugins.wxwork.bo.message.TextMessage;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
-import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
+import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
 import io.jenkins.plugins.wxwork.utils.StrUtils;
 import jenkins.model.Jenkins;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
 /**
- * <p>WXWorkRobotConfig</p>
+ * <p>WXWorkRobotProperty</p>
  *
  * @author nekoimi 2022/07/16
  */
@@ -125,7 +125,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
         public FormValidation doTest(@QueryParameter("id") String id, @QueryParameter("name") String name, @QueryParameter("webhook") String webhook) {
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
             RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功").atAll(true).build();
-            RobotResponse robotResponse = WXWorkRobotSender.instance().send(property, message);
+            RobotResponse robotResponse = WXWorkRobotMessageSender.instance().send(property, message);
             if (robotResponse != null && robotResponse.isOk()) {
                 // ok
                 String rootUrl = Jenkins.get().getRootUrl();

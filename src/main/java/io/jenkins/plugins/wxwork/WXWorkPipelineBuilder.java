@@ -15,10 +15,10 @@ import io.jenkins.plugins.wxwork.bo.RunUser;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
-import io.jenkins.plugins.wxwork.contract.RobotSender;
+import io.jenkins.plugins.wxwork.contract.RobotMessageSender;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
-import io.jenkins.plugins.wxwork.robot.WXWorkRobotSender;
+import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
 import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
 import jenkins.tasks.SimpleBuildStep;
 import lombok.Getter;
@@ -84,7 +84,7 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
     /**
      * <p>机器人推送</p>
      */
-    private final RobotSender robotSender = WXWorkRobotSender.instance();
+    private final RobotMessageSender robotSender = WXWorkRobotMessageSender.instance();
 
     @DataBoundConstructor
     public WXWorkPipelineBuilder(String robot) {
