@@ -13,11 +13,16 @@ WXWork for jenkins
 
 node {
 
-    stage('Send WXWork') {
+    stage('文本消息') {
         
         wxwork(
             robot: 'ID',
-            type: 'TEXT',
+            type: 'text', 
+            atMe: true,                 // 是否"@"我自己(当前构建任务执行人)
+            atAll: false,               // 是否"@"所有人
+            at: [                       // 企业微信成员手机号列表
+                'mobile1', 'mobile2'
+            ],
             text: [
                 'hello',
                 'world'
@@ -26,6 +31,31 @@ node {
         
     }
 
+    stage('Markdown消息') {
+
+        wxwork(
+                robot: 'ID',
+                type: 'markdown',
+                text: [
+                        '# hello world',
+                        '- ppppppppp',
+                        '- ppppppppp',
+                        '> content'
+                ]
+        )
+
+    }
+
+    stage('图片消息') {
+
+        wxwork(
+                robot: 'ID',
+                type: 'image',
+                imageUrl: 'image.png'  // 当前项目图片文件相对路径
+        )
+
+    }
+    
 }
 ```
 
