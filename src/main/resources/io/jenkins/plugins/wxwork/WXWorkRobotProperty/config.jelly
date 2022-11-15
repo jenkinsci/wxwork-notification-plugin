@@ -4,10 +4,48 @@
          xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:dt="/lib/wxwork">
 
     <st:once>
-        <script type="text/javascript" src="${rootURL}/plugin/wxwork-notifications/scripts/wxwork.js"/>
+        <script>
+            const wxworkShowLoading = el => {
+                el.style.display = "block"
+            }
+            const wxworkCloseLoading = el => {
+                el.style.display = "none"
+            }
+            const wxworkFindProperty = el => {
+                let id = findPreviousFormItem(el, 'id').value;
+                let name = findPreviousFormItem(el, 'name').value;
+                let webhook = findPreviousFormItem(el, 'webhook').value;
+
+                return {
+                    id: id, name: name, webhook: webhook
+                }
+            }
+            const wxworkSendRobotTest = el => {
+                let url = el.getAttribute("data-request-url")
+                let method = el.getAttribute("data-request-method")
+                let loadingBox = el.nextSibling
+                let infoBox = loadingBox.nextSibling
+                // send ajax request with requestUrl
+                let requestUrl = url + "/" + method
+                wxworkShowLoading(loadingBox)
+                new Ajax.Request(requestUrl, {
+                    parameters: wxworkFindProperty(el), onComplete: function (response) {
+                        wxworkCloseLoading(loadingBox)
+                        applyErrorMessage(infoBox, response);
+                        try {
+                            layoutUpdateCallback.call();
+                            let headerScript = response.getResponseHeader("script");
+                            geval(headerScript);
+                        } catch (e) {
+                            applyErrorMessage(infoBox, "failed to evaluate " + s + "\n" + e.message);
+                        }
+                    }
+                })
+            }
+        </script>
     </st:once>
 
-    <dt:blockWrapper class="dt-robot-config" style="width: 100%;">
+    <dt:blockWrapper class="wxwork-robot-config" style="width: 100%;">
 
         <f:entry title="id" field="id">
             <f:textbox/>
@@ -19,18 +57,18 @@
             <f:textbox/>
         </f:entry>
 
-<!--        <f:block>-->
-<!--            <input type="button" value="测试" class="validate-button" style="float:right"-->
-<!--                   data-request-url="${descriptor.descriptorFullUrl}"-->
-<!--                   data-request-method="test"-->
-<!--                   data-validate-button-with="${with}"-->
-<!--                   onclick="sendRobotTest(this)"/>-->
-<!--            <div style="display:none;">-->
-<!--                <img src="${imagesURL}/spinner.gif"/>-->
-<!--                ${attrs.progress}-->
-<!--            </div>-->
-<!--            <div>&lt;!&ndash; this is where the error message goes &ndash;&gt;</div>-->
-<!--        </f:block>-->
+        <f:block>
+            <input type="button" value="测试" class="validate-button" style="float:right"
+                   data-request-url="${descriptor.descriptorFullUrl}"
+                   data-request-method="test"
+                   data-validate-button-with="${with}"
+                   onclick="wxworkSendRobotTest(this)"/>
+            <div style="display:none;">
+                <img src="${imagesURL}/spinner.gif"/>
+                ${attrs.progress}
+            </div>
+            <div><!-- this is where the error message goes --></div>
+        </f:block>
 
     </dt:blockWrapper>
 </j:jelly>
