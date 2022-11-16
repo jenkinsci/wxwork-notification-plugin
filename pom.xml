@@ -22,7 +22,7 @@
         <hpi.compatibleSinceVersion>2.0.0</hpi.compatibleSinceVersion>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.319.3</jenkins.version>
-        <gitHubRepo>nekoimi/wxwork-plugin</gitHubRepo>
+        <gitHubRepo>nekoimi/wxwork-notification-plugin</gitHubRepo>
     </properties>
 
     <developers>
