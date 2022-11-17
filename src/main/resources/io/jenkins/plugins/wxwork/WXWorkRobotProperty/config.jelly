@@ -47,18 +47,18 @@
 
     <dt:blockWrapper class="wxwork-robot-config" style="width: 100%;">
 
-        <f:entry title="id" field="id">
+        <f:entry title="${%robotUniqueID}" field="id">
             <f:textbox/>
         </f:entry>
-        <f:entry title="名称" field="name">
+        <f:entry title="${%robotName}" field="name">
             <f:textbox/>
         </f:entry>
-        <f:entry title="webhook" field="webhook">
+        <f:entry title="${%robotWebhook}" field="webhook">
             <f:textbox/>
         </f:entry>
 
         <f:block>
-            <input type="button" value="测试" class="validate-button" style="float:right"
+            <input type="button" value="${%robotTest}" class="validate-button" style="float:right"
                    data-request-url="${descriptor.descriptorFullUrl}"
                    data-request-method="test"
                    data-validate-button-with="${with}"

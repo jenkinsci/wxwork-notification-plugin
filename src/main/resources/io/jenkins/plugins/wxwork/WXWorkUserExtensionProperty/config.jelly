@@ -2,6 +2,9 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
   xmlns:t="/lib/hudson" xmlns:f="/lib/form">
   <f:entry title="${%mobileTitle}" description="${%mobileDesc}">
+    <span class="setting-help">
+      <a href="#" class="help-button" helpURL="${rootURL}${attrs.url}"><l:helpIcon class="icon-help" /></a>
+    </span>
     <f:textbox field="mobile"/>
   </f:entry>
 </j:jelly>

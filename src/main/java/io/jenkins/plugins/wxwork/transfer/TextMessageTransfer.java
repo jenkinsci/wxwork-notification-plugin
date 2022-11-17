@@ -8,6 +8,7 @@ import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.utils.StrUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +34,8 @@ public class TextMessageTransfer implements RobotMessageTransfer {
             builder.atAll(true);
         }
         List<String> textList = pipelineVars.getText();
-        List<String> textCollect = textList.stream().filter(StrUtils::isNotBlank).collect(Collectors.toList());
+        List<String> textCollect =
+                textList.stream().filter(Objects::nonNull).filter(StrUtils::isNotBlank).collect(Collectors.toList());
         builder.content(String.join("\n", textCollect));
         return builder.build();
     }
