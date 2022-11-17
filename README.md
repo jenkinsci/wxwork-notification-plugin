@@ -2,7 +2,7 @@
 
 ### Introduction
 
-WXWork for jenkins
+企业微信机器人Jenkins插件
 
 ### Quick start
 
@@ -58,8 +58,6 @@ node {
     
 }
 ```
-
-- 详细使用参考文档：[文档点这里！](https://github.com/nekoimi/wxwork-plugin/wiki)
 
 - 企业微信机器人开发文档: [企业微信官方文档](https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win)
 
