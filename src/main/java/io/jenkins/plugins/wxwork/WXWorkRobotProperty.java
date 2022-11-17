@@ -78,8 +78,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
         /**
          * <p>ID验证</p>
          *
-         * @param id
-         * @return
+         * @param id 机器人唯一ID
          */
         public FormValidation doCheckId(@QueryParameter String id) {
             if (StrUtils.isBlank(id)) {
@@ -91,8 +90,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
         /**
          * <p>名称验证</p>
          *
-         * @param name
-         * @return
+         * @param name 机器人名称
          */
         public FormValidation doCheckName(@QueryParameter String name) {
             if (StrUtils.isBlank(name)) {
@@ -104,8 +102,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
         /**
          * <p>webhook地址验证</p>
          *
-         * @param webhook
-         * @return
+         * @param webhook 机器人webhook
          */
         public FormValidation doCheckWebhook(@QueryParameter String webhook) {
             if (StrUtils.isBlank(webhook)) {
@@ -117,14 +114,13 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
         /**
          * <p>测试机器人</p>
          *
-         * @param id
-         * @param name
-         * @param webhook
-         * @return
+         * @param id      机器人ID
+         * @param name    机器人名称
+         * @param webhook 机器人webhook
          */
         public FormValidation doTest(@QueryParameter("id") String id, @QueryParameter("name") String name, @QueryParameter("webhook") String webhook) {
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
-            RobotRequest message = TextMessage.builder().content("WXWORK: 企业微信机器人测试成功!").atAll(true).build();
+            RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功!").atAll(true).build();
             RobotResponse robotResponse = WXWorkRobotMessageSender.instance().send(property, message);
             if (robotResponse != null && robotResponse.isOk()) {
                 // ok

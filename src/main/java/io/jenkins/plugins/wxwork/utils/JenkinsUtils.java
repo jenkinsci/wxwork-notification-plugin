@@ -24,9 +24,8 @@ public class JenkinsUtils {
     /**
      * <p>获取执行用户</p>
      *
-     * @param run
-     * @param listener
-     * @return
+     * @param run {@link Run}
+     * @param listener {@link TaskListener}
      */
     public static RunUser getRunUser(Run<?, ?> run, TaskListener listener) {
         Cause.UserIdCause userIdCause = run.getCause(Cause.UserIdCause.class);

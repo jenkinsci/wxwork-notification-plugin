@@ -13,16 +13,14 @@ public interface RobotMessageTransfer {
     /**
      * <p>是否支持消息类型</p>
      *
-     * @param messageType
-     * @return
+     * @param messageType 消息类型 {@link MessageType}
      */
     boolean supports(MessageType messageType);
 
     /**
      * <p>生成机器人请求消息</p>
      *
-     * @param pipelineVars
-     * @return
+     * @param pipelineVars Pipeline参数
      */
     RobotRequest transferRobotRequest(RobotPipelineVars pipelineVars);
 }

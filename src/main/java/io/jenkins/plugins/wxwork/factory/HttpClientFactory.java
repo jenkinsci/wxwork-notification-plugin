@@ -14,9 +14,8 @@ public class HttpClientFactory {
     }
 
     /**
-     * <p>use default http client</p>
+     * <p>使用默认的httpclient实现</p>
      *
-     * @return
      */
     public static HttpClient defaultInstance() {
         return new DefaultHttpClient();

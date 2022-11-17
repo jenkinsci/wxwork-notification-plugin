@@ -10,7 +10,7 @@ public interface RobotMessageSender {
     /**
      * <p>发送消息</p>
      *
-     * @param request
+     * @param request 请求实体
      */
     RobotResponse send(RobotProperty property, RobotRequest request);
 }

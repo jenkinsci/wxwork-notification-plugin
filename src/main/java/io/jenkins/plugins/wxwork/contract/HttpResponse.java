@@ -10,21 +10,18 @@ public interface HttpResponse {
     /**
      * <p>状态码</p>
      *
-     * @return
      */
     int statusCode();
 
     /**
      * <p>响应体</p>
      *
-     * @return
      */
     byte[] body();
 
     /**
      * <p>异常消息</p>
      *
-     * @return
      */
     String errorMessage();
 }

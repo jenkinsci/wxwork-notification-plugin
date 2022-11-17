@@ -49,15 +49,13 @@ public class WXWorkGlobalConfig extends GlobalConfiguration {
     @DataBoundSetter
     public void setRobotPropertyList(List<WXWorkRobotProperty> robotPropertyList) {
         this.robotPropertyList = robotPropertyList;
-        // 保存配置到xml
         this.save();
     }
 
     /**
      * <p>获取指定ID的机器人配置信息</p>
      *
-     * @param robotId
-     * @return
+     * @param robotId 机器人唯一ID
      */
     public WXWorkRobotProperty getRobotPropertyById(String robotId) {
         for (WXWorkRobotProperty robotProperty : robotPropertyList) {

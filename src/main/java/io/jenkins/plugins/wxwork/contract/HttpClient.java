@@ -9,10 +9,9 @@ package io.jenkins.plugins.wxwork.contract;
 public interface HttpClient {
 
     /**
-     * <p>send</p>
+     * <p>发送请求</p>
      *
-     * @param request
-     * @return
+     * @param request 请求
      */
     HttpResponse send(HttpRequest request);
 }

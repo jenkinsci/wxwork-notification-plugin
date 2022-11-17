@@ -13,8 +13,7 @@ public class MarkdownColor {
     /**
      * <p>绿色字体消息</p>
      *
-     * @param message
-     * @return
+     * @param message 消息信息
      */
     public static String green(String message) {
         return "<font color=\"info\">" + message + "</font>";
@@ -23,8 +22,7 @@ public class MarkdownColor {
     /**
      * <p>灰色字体消息</p>
      *
-     * @param message
-     * @return
+     * @param message 消息信息
      */
     public static String grey(String message) {
         return "<font color=\"comment\">" + message + "</font>";
@@ -33,8 +31,7 @@ public class MarkdownColor {
     /**
      * <p>红色字体消息</p>
      *
-     * @param message
-     * @return
+     * @param message 消息信息
      */
     public static String red(String message) {
         return "<font color=\"warning\">" + message + "</font>";

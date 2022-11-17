@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-    企业微信 Jenkins 插件
+    企业微信 Jenkins 插件，支持文本消息、Markdown消息、图片消息。
 </div>

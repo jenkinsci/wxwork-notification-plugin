@@ -35,11 +35,8 @@ import java.util.Set;
 
 /**
  * <p>Pipeline支持</p>
- * <p>
- * 企业微信机器人文档：
  *
  * @author nekoimi 2022/07/12
- * @see <a href="https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win">https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win</a>
  */
 @Getter
 @Setter

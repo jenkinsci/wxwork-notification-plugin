@@ -5,7 +5,7 @@ import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import lombok.*;
 
 /**
- * <p>SendResponse</p>
+ * <p>WXWorkRobotResponse</p>
  *
  * @author nekoimi 2022/07/16
  */

@@ -42,7 +42,7 @@ public class ImageMessageTransfer implements RobotMessageTransfer {
             return null;
         }
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            pipelineVars.getListener().getLogger().println("WXWORK: 图片地址: " + imagePath.toURI().toString());
+            pipelineVars.getListener().getLogger().println("图片地址: " + imagePath.toURI().toString());
             imagePath.copyTo(outputStream);
             byte[] bytes = outputStream.toByteArray();
             Base64.Encoder encoder = Base64.getEncoder();

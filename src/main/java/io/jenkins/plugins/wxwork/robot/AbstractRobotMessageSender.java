@@ -13,17 +13,15 @@ public abstract class AbstractRobotMessageSender implements RobotMessageSender {
     /**
      * <p>包装request</p>
      *
-     * @param property
-     * @param request
-     * @return
+     * @param property 机器人配置
+     * @param request 机器人请求
      */
     abstract protected HttpRequest wrapRequest(RobotProperty property, RobotRequest request);
 
     /**
      * <p>包装response</p>
      *
-     * @param httpResponse
-     * @return
+     * @param httpResponse http响应对象
      */
     abstract protected RobotResponse wrapResponse(HttpResponse httpResponse);
 
