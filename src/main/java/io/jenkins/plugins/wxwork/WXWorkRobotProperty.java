@@ -17,6 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.verb.POST;
 
 /**
  * <p>WXWorkRobotProperty</p>
@@ -118,7 +119,9 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
          * @param name    机器人名称
          * @param webhook 机器人webhook
          */
+        @POST
         public FormValidation doTest(@QueryParameter("id") String id, @QueryParameter("name") String name, @QueryParameter("webhook") String webhook) {
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
             RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功!").atAll(true).build();
             RobotResponse robotResponse = WXWorkRobotMessageSender.instance().send(property, message);
