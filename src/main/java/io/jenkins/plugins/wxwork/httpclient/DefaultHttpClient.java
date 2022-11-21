@@ -5,10 +5,7 @@ import io.jenkins.plugins.wxwork.contract.HttpRequest;
 import io.jenkins.plugins.wxwork.contract.HttpResponse;
 import io.jenkins.plugins.wxwork.protocol.DefaultHttpResponse;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -23,6 +20,8 @@ import java.util.zip.GZIPInputStream;
  * @author nekoimi 2022/07/16
  */
 public class DefaultHttpClient implements HttpClient {
+    private static final String IGNORE_SSL_DOMAIN = "qyapi.weixin.qq.com";
+    private static final HostnameVerifier webhookApiHostnameVerifier = new WXWorkRobotWebHookApiHostnameVerifier();
 
     @Override
     public HttpResponse send(HttpRequest request) {
@@ -82,9 +81,9 @@ public class DefaultHttpClient implements HttpClient {
                 SSLContext ctx = SSLContext.getInstance("TLS");
                 ctx.init(null, new TrustManager[]{new TrustAllTrustManager()}, new SecureRandom());
                 httpsConnection.setSSLSocketFactory(ctx.getSocketFactory());
-                httpsConnection.setHostnameVerifier((hostname, session) -> true);
+                httpsConnection.setHostnameVerifier(webhookApiHostnameVerifier);
             } catch (Exception e) {
-                httpsConnection.setHostnameVerifier((hostname, session) -> true);
+                httpsConnection.setHostnameVerifier(webhookApiHostnameVerifier);
             }
         }
 
@@ -111,6 +110,19 @@ public class DefaultHttpClient implements HttpClient {
 
         @Override
         public void checkServerTrusted(X509Certificate[] chain, String authType) {
+        }
+    }
+
+    private static class WXWorkRobotWebHookApiHostnameVerifier implements HostnameVerifier {
+
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            if (IGNORE_SSL_DOMAIN.equals(hostname)) {
+                return true;
+            } else {
+                HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+                return hostnameVerifier.verify(hostname, session);
+            }
         }
     }
 }
