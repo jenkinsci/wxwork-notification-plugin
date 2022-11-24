@@ -22,3 +22,5 @@ work
 Messages.java
 test.groovy
 .data
+*.releaseBackup
+release.properties
