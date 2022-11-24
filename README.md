@@ -1,4 +1,4 @@
-# Jenkins 企业微信机器人通知
+# 企业微信机器人Jenkins插件
 
 ### Introduction
 

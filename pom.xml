@@ -10,12 +10,14 @@
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>wxwork-notification</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
     <name>WXWork Notification Plugin</name>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
     <properties>
+        <revision>1.0.0</revision>
+        <changelist>-SNAPSHOT</changelist>
         <hpi.compatibleSinceVersion>2.0.0</hpi.compatibleSinceVersion>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.332.4</jenkins.version>
