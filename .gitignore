@@ -15,7 +15,8 @@ work
 .project
 
 # Disable github worflow
-.github
+.github/release-drafter.yml
+.github/workflows/release-drafter.yml
 
 # Ignore resource bundle Messages
 Messages.java
