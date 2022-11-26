@@ -18,7 +18,6 @@
     <properties>
         <revision>1.0.0</revision>
         <changelist>-SNAPSHOT</changelist>
-        <hpi.compatibleSinceVersion>2.0.0</hpi.compatibleSinceVersion>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.332.4</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
