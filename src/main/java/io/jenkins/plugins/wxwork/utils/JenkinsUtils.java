@@ -41,9 +41,14 @@ public class JenkinsUtils {
             executorName = run.getCauses().stream().map(Cause::getShortDescription).collect(Collectors.joining());
         } else {
             executorName = user.getDisplayName();
-            executorMobile = user.getProperty(WXWorkUserExtensionProperty.class).getMobile();
-            if (executorMobile == null) {
+            WXWorkUserExtensionProperty executorProperty = user.getProperty(WXWorkUserExtensionProperty.class);
+            if (executorProperty == null) {
                 listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
+            } else {
+                executorMobile = executorProperty.getMobile();
+                if (StrUtils.isBlank(executorMobile)){
+                    listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
+                }
             }
         }
         return RunUser.builder().name(executorName).mobile(executorMobile).build();
