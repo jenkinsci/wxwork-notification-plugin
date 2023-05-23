@@ -36,7 +36,7 @@ public class TextMessageTransfer implements RobotMessageTransfer {
         List<String> textList = pipelineVars.getText();
         List<String> textCollect =
                 textList.stream().filter(Objects::nonNull).filter(StrUtils::isNotBlank).collect(Collectors.toList());
-        builder.content(String.join("\n", textCollect));
+        builder.content(pipelineVars.getEnvVars().expand(String.join("\n", textCollect)));
         return builder.build();
     }
 }
