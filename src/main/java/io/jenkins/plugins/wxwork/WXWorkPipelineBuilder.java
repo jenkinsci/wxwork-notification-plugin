@@ -124,7 +124,7 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
     public void perform(
             @NonNull Run<?, ?> run,
             @NonNull FilePath workspace,
-            @NonNull EnvVars env,
+            @NonNull EnvVars envVars,
             @NonNull Launcher launcher,
             @NonNull TaskListener listener) throws InterruptedException, IOException {
         RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
@@ -134,9 +134,9 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
         }
         RunUser runUser = JenkinsUtils.getRunUser(run, listener);
         RobotPipelineVars pipelineVars = RobotPipelineVars.builder()
-                .robot(this.robot).type(this.type).atMe(this.atMe).atAll(this.atAll)
-                .at(this.at).text(this.text).imageUrl(this.imageUrl).runUser(runUser)
-                .env(env).workspace(workspace).listener(listener).build();
+                .robot(envVars.expand(this.robot)).type(this.type).atMe(this.atMe).atAll(this.atAll)
+                .at(this.at).text(this.text).imageUrl(envVars.expand(this.imageUrl)).runUser(runUser)
+                .envVars(envVars).workspace(workspace).listener(listener).build();
         RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineVars);
         if (robotRequest == null) {
             listener.error("不支持的消息!");

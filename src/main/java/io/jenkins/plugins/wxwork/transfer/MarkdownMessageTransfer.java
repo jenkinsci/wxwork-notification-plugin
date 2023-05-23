@@ -27,7 +27,7 @@ public class MarkdownMessageTransfer implements RobotMessageTransfer {
         MarkdownMessage.Builder builder = MarkdownMessage.builder();
         List<String> textList = pipelineVars.getText();
         List<String> textCollect = textList.stream().filter(StrUtils::isNotBlank).collect(Collectors.toList());
-        builder.content(String.join("\n", textCollect));
+        builder.content(pipelineVars.getEnvVars().expand(String.join("\n", textCollect)));
         return builder.build();
     }
 }

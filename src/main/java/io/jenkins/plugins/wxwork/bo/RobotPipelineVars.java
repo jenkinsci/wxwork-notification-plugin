@@ -65,7 +65,7 @@ public class RobotPipelineVars {
     /**
      * 环境变量
      */
-    private EnvVars env;
+    private EnvVars envVars;
 
     /**
      * workspace
