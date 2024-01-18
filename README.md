@@ -28,7 +28,8 @@ node {
             ],
             text: [
                 'hello',
-                'world'
+                'world',
+                'env: ${ENV_NAME}'      // 使用环境变量
             ]
         )
         
@@ -43,7 +44,8 @@ node {
                         '# hello world',
                         '- ppppppppp',
                         '- ppppppppp',
-                        '> content'
+                        '> content',
+                        'env: ${ENV_NAME}'      // 使用环境变量
                 ]
         )
 
