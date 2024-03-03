@@ -64,7 +64,7 @@
                    data-validate-button-with="${with}"
                    onclick="wxworkSendRobotTest(this)"/>
             <div style="display:none;">
-                <img src="${imagesURL}/spinner.gif"/>
+                <l:progressAnimation/>
                 ${attrs.progress}
             </div>
             <div><!-- this is where the error message goes --></div>
