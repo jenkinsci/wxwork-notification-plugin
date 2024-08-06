@@ -2,14 +2,9 @@ package io.jenkins.plugins.wxwork;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
-import hudson.Extension;
 import hudson.FilePath;
-import hudson.Launcher;
-import hudson.model.AbstractProject;
 import hudson.model.Run;
 import hudson.model.TaskListener;
-import hudson.tasks.BuildStepDescriptor;
-import hudson.tasks.Builder;
 import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.bo.RunUser;
 import io.jenkins.plugins.wxwork.contract.RobotMessageSender;
@@ -20,29 +15,27 @@ import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
 import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
-import jenkins.tasks.SimpleBuildStep;
 import lombok.Getter;
 import lombok.Setter;
-import org.jenkinsci.Symbol;
+import org.jenkinsci.plugins.workflow.steps.Step;
+import org.jenkinsci.plugins.workflow.steps.StepContext;
+import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
+import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * <p>Pipeline支持</p>
- *
- * @author nekoimi 2022/07/12
+ * @author nekoimi 2024/8/6 23:56
  */
 @Getter
 @Setter
 @SuppressWarnings("unused")
-public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
-
+public class WXWorkStep extends Step {
     /**
      * 机器人ID
      */
@@ -84,7 +77,7 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
     private final RobotMessageSender robotSender = WXWorkRobotMessageSender.instance();
 
     @DataBoundConstructor
-    public WXWorkPipelineBuilder(String robot) {
+    public WXWorkStep(String robot) {
         this.robot = robot;
     }
 
@@ -120,13 +113,15 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
         this.imageUrl = imageUrl;
     }
 
-    @Override
-    public void perform(
-            @NonNull Run<?, ?> run,
-            @NonNull FilePath workspace,
-            @NonNull EnvVars envVars,
-            @NonNull Launcher launcher,
-            @NonNull TaskListener listener) throws InterruptedException, IOException {
+    /**
+     * <p>发送机器人消息</p>
+     *
+     * @param run
+     * @param workspace
+     * @param envVars
+     * @param listener
+     */
+    public void send(Run<?, ?> run, FilePath workspace, EnvVars envVars, TaskListener listener) {
         RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
         if (property == null) {
             listener.error("机器人[%s]配置找不到!", robot);
@@ -154,13 +149,55 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
         }
     }
 
-    @Symbol({"wxwork", "wxWork"})
-    @Extension
-    public final static class WXWorkDescriptorImpl extends BuildStepDescriptor<Builder> {
+    @Override
+    public StepExecution start(StepContext context) throws Exception {
+        return new WXWorkStepExecution(this, context);
+    }
+
+    @Override
+    public StepDescriptor getDescriptor() {
+        return new WXWorkStepDescriptor();
+    }
+
+    /**
+     * 执行
+     */
+    static class WXWorkStepExecution extends StepExecution {
+        private final transient WXWorkStep step;
+
+        public WXWorkStepExecution(WXWorkStep step, @NonNull StepContext context) {
+            super(context);
+            this.step = step;
+        }
 
         @Override
-        public boolean isApplicable(Class<? extends AbstractProject> jobType) {
-            return false;
+        public boolean start() throws Exception {
+            StepContext context = this.getContext();
+
+            Run<?, ?> run = context.get(Run.class);
+            FilePath workspace = context.get(FilePath.class);
+            EnvVars envVars = context.get(EnvVars.class);
+            TaskListener listener = context.get(TaskListener.class);
+
+            this.step.send(run, workspace, envVars, listener);
+
+            return true;
+        }
+    }
+
+    static class WXWorkStepDescriptor extends StepDescriptor {
+
+        @Override
+        public Set<? extends Class<?>> getRequiredContext() {
+            return new HashSet<Class<?>>() {{
+                add(Run.class);
+                add(TaskListener.class);
+            }};
+        }
+
+        @Override
+        public String getFunctionName() {
+            return "wxwork";
         }
 
         @NonNull
