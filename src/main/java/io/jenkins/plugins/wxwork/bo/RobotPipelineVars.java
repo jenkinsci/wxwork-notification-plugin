@@ -2,6 +2,7 @@ package io.jenkins.plugins.wxwork.bo;
 
 import hudson.EnvVars;
 import hudson.FilePath;
+import hudson.model.Run;
 import hudson.model.TaskListener;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import lombok.*;
@@ -22,6 +23,32 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RobotPipelineVars {
+
+    /**
+     * Run
+     */
+    Run<?, ?> run;
+
+    /**
+     * 环境变量
+     */
+    private EnvVars envVars;
+
+    /**
+     * workspace
+     */
+    private FilePath workspace;
+
+    /**
+     * taskListener
+     */
+    private TaskListener listener;
+
+    /**
+     * 当前执行用户信息
+     */
+    private RunUser runUser;
+
     /**
      * 机器人ID
      */
@@ -56,24 +83,4 @@ public class RobotPipelineVars {
      * Image消息图片地址
      */
     private String imageUrl;
-
-    /**
-     * 当前执行用户信息
-     */
-    private RunUser runUser;
-
-    /**
-     * 环境变量
-     */
-    private EnvVars envVars;
-
-    /**
-     * workspace
-     */
-    private FilePath workspace;
-
-    /**
-     * taskListener
-     */
-    private TaskListener listener;
 }
