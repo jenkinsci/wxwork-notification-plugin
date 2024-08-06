@@ -12,10 +12,10 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
 import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.bo.RunUser;
+import io.jenkins.plugins.wxwork.contract.RobotMessageSender;
 import io.jenkins.plugins.wxwork.contract.RobotProperty;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.contract.RobotResponse;
-import io.jenkins.plugins.wxwork.contract.RobotMessageSender;
 import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
@@ -134,9 +134,13 @@ public class WXWorkPipelineBuilder extends Builder implements SimpleBuildStep {
         }
         RunUser runUser = JenkinsUtils.getRunUser(run, listener);
         RobotPipelineVars pipelineVars = RobotPipelineVars.builder()
-                .robot(envVars.expand(this.robot)).type(this.type).atMe(this.atMe).atAll(this.atAll)
-                .at(this.at).text(this.text).imageUrl(envVars.expand(this.imageUrl)).runUser(runUser)
-                .envVars(envVars).workspace(workspace).listener(listener).build();
+                .run(run).envVars(envVars).workspace(workspace).listener(listener)
+                .runUser(runUser)
+                .robot(JenkinsUtils.expandAll(run, workspace, listener, this.robot))
+                .type(this.type).atMe(this.atMe).atAll(this.atAll).at(this.at)
+                .text(this.text)
+                .imageUrl(JenkinsUtils.expandAll(run, workspace, listener, this.imageUrl))
+                .build();
         RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineVars);
         if (robotRequest == null) {
             listener.error("不支持的消息!");
