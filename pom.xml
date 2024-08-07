@@ -5,19 +5,20 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.75</version>
+        <!-- 插件pom：https://github.com/jenkinsci/plugin-pom -->
+        <version>4.55</version>
         <relativePath/>
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>wxwork-notification</artifactId>
-    <version>${revision}-${changelist}</version>
+    <version>${revision}${changelist}</version>
     <packaging>hpi</packaging>
     <name>WXWork Notification Plugin</name>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
     <properties>
         <revision>1.0.2</revision>
-        <changelist>0-SNAPSHOT</changelist>
+        <changelist>-SNAPSHOT</changelist>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
         <jenkins.version>2.387.3</jenkins.version>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
@@ -107,14 +108,4 @@
             <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
-
-    <build>
-        <extensions>
-            <extension>
-                <groupId>io.jenkins.tools.incrementals</groupId>
-                <artifactId>git-changelist-maven-extension</artifactId>
-                <version>1.7</version>
-            </extension>
-        </extensions>
-    </build>
 </project>
