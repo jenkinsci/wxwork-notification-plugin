@@ -41,7 +41,8 @@ public interface RobotMessageTransfer {
                 .stream()
                 .filter(Objects::nonNull)
                 .filter(StrUtils::isNotBlank)
+                .map(s -> JenkinsUtils.expandAll(pipelineVars, s))
                 .collect(Collectors.toList());
-        return JenkinsUtils.expandAll(pipelineVars, String.join("\n", textCollect));
+        return String.join("\n", textCollect);
     }
 }

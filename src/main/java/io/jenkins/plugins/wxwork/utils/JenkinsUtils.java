@@ -29,22 +29,13 @@ public class JenkinsUtils {
 
     /**
      * 处理内容包含的环境变量
+     *
      * @param pipelineVars
      * @param text
      * @return
      */
     public static String expandAll(RobotPipelineVars pipelineVars, String text) {
-        try {
-            return TokenMacro.expandAll(
-                    pipelineVars.getRun(),
-                    pipelineVars.getWorkspace(),
-                    pipelineVars.getListener(),
-                    text
-            );
-        } catch (MacroEvaluationException | IOException | InterruptedException e) {
-            pipelineVars.getListener().getLogger().println("企业微信插件处理环境变量异常: " + e.getMessage());
-            return pipelineVars.getEnvVars().expand(text);
-        }
+        return expandAll(pipelineVars.getRun(), pipelineVars.getWorkspace(), pipelineVars.getListener(), text);
     }
 
     /**
@@ -59,17 +50,22 @@ public class JenkinsUtils {
     public static String expandAll(Run<?, ?> run, FilePath workspace, TaskListener listener, String text) {
         try {
             return TokenMacro.expandAll(run, workspace, listener, text);
-        } catch (MacroEvaluationException | IOException | InterruptedException e) {
-            listener.getLogger().println("企业微信插件处理环境变量异常: " + e.getMessage());
+        } catch (MacroEvaluationException | IOException e) {
+            listener.getLogger().println("WXWORK: 请检查文本【" + text + "】是否使用双引号包裹，非变量插值请忽略该提示");
 
             try {
                 EnvVars envVars = run.getEnvironment(listener);
                 return envVars.expand(text);
-            } catch (IOException | InterruptedException ex) {
-                listener.getLogger().println("企业微信插件处理环境变量异常: " + e.getMessage());
+            } catch (IOException ex) {
+                ex.printStackTrace(listener.getLogger());
+            } catch (InterruptedException ei) {
+                Thread.currentThread().interrupt();
             }
-            return "";
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+
+        return "";
     }
 
     /**

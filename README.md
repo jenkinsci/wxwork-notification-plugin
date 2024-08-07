@@ -29,7 +29,9 @@ node {
             text: [
                 'hello',
                 'world',
-                'env: ${ENV_NAME}'      // 使用环境变量
+                "env: ${ENV_NAME}",                         // 使用环境变量
+                "params: ${params.name}",                   // 使用构建参数变量
+                "displayName: ${currentBuild.displayName}", // 使用全局变量
             ]
         )
         
@@ -45,7 +47,9 @@ node {
                         '- ppppppppp',
                         '- ppppppppp',
                         '> content',
-                        'env: ${ENV_NAME}'      // 使用环境变量
+                        "env: ${ENV_NAME}",                         // 使用环境变量
+                        "params: ${params.name}",                   // 使用构建参数变量
+                        "displayName: ${currentBuild.displayName}", // 使用全局变量
                 ]
         )
 
