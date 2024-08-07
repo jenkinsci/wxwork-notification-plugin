@@ -19,6 +19,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.verb.POST;
 
+import java.util.Objects;
+
 /**
  * <p>WXWorkRobotProperty</p>
  *
@@ -125,13 +127,16 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
             RobotRequest message = TextMessage.builder().content("企业微信机器人测试成功!").atAll(true).build();
             RobotResponse robotResponse = WXWorkRobotMessageSender.instance().send(property, message);
-            if (robotResponse != null && robotResponse.isOk()) {
-                // ok
-                String rootUrl = Jenkins.get().getRootUrl();
-                return FormValidation.respond(FormValidation.Kind.OK, "<img src='" + rootUrl + "/images/16x16/accept.png'>" + "<span style='padding-left:4px;color:#52c41a;font-weight:bold;'>测试成功</span>");
-            } else {
-                return FormValidation.error(robotResponse.errorMessage());
+            if (Objects.nonNull(robotResponse)) {
+                if (robotResponse.isOk()) {
+                    // ok
+                    String rootUrl = Jenkins.get().getRootUrl();
+                    return FormValidation.respond(FormValidation.Kind.OK, "<img src='" + rootUrl + "/images/16x16/accept.png'>" + "<span style='padding-left:4px;color:#52c41a;font-weight:bold;'>测试成功</span>");
+                } else {
+                    return FormValidation.error(robotResponse.errorMessage());
+                }
             }
+            return FormValidation.error("企业微信机器人测试出现错误！");
         }
     }
 }
