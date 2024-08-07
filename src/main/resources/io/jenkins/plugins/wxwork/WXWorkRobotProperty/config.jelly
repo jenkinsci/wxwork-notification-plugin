@@ -11,16 +11,23 @@
             const closeWxWorkPluginSettingLoading = el => {
                 el.style.display = "none"
             }
-            const findWxWorkPluginProperty = el => {
-                let id = findPreviousFormItem(el, 'id').value;
-                let name = findPreviousFormItem(el, 'name').value;
-                let webhook = findPreviousFormItem(el, 'webhook').value;
+            const findWxWorkPluginTestQuery = (el) => {
+                let id = el.querySelector('input[name="id"]').value;
+                let name = el.querySelector('input[name="name"]').value;
+                let webhook = el.querySelector('input[name="webhook"]').value;
 
-                return {
+                let dict = {
                     id: id, name: name, webhook: webhook
                 }
+
+                let qs = "?"
+                for (let k in dict) {
+                    qs += k + "=" + dict[k] + "&amp;"
+                }
+                return qs
             }
-            const sendWxWorkPluginRobotTest = el => {
+            const sendWxWorkPluginRobotTest = async (el) => {
+                let $robotBox = el.closest('.wxwork-robot-config')
                 let url = el.getAttribute("data-request-url")
                 let method = el.getAttribute("data-request-method")
                 let loadingBox = el.nextSibling
@@ -28,19 +35,17 @@
                 // send ajax request with requestUrl
                 let requestUrl = url + "/" + method
                 showWxWorkPluginSettingLoading(loadingBox)
-                new Ajax.Request(requestUrl, {
-                    parameters: findWxWorkPluginProperty(el), onComplete: function (response) {
-                        closeWxWorkPluginSettingLoading(loadingBox)
-                        applyErrorMessage(infoBox, response);
-                        try {
-                            layoutUpdateCallback.call();
-                            let headerScript = response.getResponseHeader("script");
-                            geval(headerScript);
-                        } catch (e) {
-                            applyErrorMessage(infoBox, "failed to evaluate " + s + "\n" + e.message);
-                        }
-                    }
+                // send request
+                let res = await fetch(requestUrl + findWxWorkPluginTestQuery($robotBox), {
+                    method: 'GET'
                 })
+                let resText = await res.text()
+                if (res.status === 200) {
+                    infoBox.innerHTML = resText
+                } else {
+                    infoBox.innerHTML = "测试异常!"
+                }
+                closeWxWorkPluginSettingLoading(loadingBox)
             }
         </script>
     </st:once>
@@ -48,13 +53,13 @@
     <div class="wxwork-robot-config" style="width: 100%;">
 
         <f:entry title="${%robotUniqueID}" field="id">
-            <f:textbox/>
+            <f:textbox name="id"/>
         </f:entry>
         <f:entry title="${%robotName}" field="name">
-            <f:textbox/>
+            <f:textbox name="name"/>
         </f:entry>
         <f:entry title="${%robotWebhook}" field="webhook">
-            <f:textbox/>
+            <f:textbox name="webhook"/>
         </f:entry>
 
         <f:block>

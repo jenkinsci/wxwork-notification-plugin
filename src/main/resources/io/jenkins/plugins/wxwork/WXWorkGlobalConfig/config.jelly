@@ -3,22 +3,27 @@
          xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" >
 
     <f:section title="${%robotPropertyTitle}">
-        <f:block>
-            <j:scope>
-                <j:set var="robotPropertyList" value="${instance.getRobotPropertyList()}"/>
-                <j:set var="robotPropertyDescriptor" value="${descriptor.getWXWorkRobotPropertyDescriptor()}"/>
-                <f:repeatable
-                        header="${%robotProperty}"
-                        field="robotPropertyList"
-                        varStatus="item"
-                        items="robotPropertyList">
-                    <st:include page="config.jelly" class="${robotPropertyDescriptor.clazz}"/>
-                    <div style="text-align: right; margin-top: 8px;">
-                        <f:repeatableDeleteButton/>
-                    </div>
-                </f:repeatable>
-            </j:scope>
-        </f:block>
+
+        <div id="wxwork-robot-config-box">
+
+            <f:block>
+                <j:scope>
+                    <j:set var="robotPropertyList" value="${instance.getRobotPropertyList()}"/>
+                    <j:set var="robotPropertyDescriptor" value="${descriptor.getWXWorkRobotPropertyDescriptor()}"/>
+                    <f:repeatable
+                            header="${%robotProperty}"
+                            field="robotPropertyList"
+                            varStatus="item"
+                            items="robotPropertyList">
+                        <st:include page="config.jelly" class="${robotPropertyDescriptor.clazz}"/>
+                        <div style="text-align: right; margin-top: 8px;">
+                            <f:repeatableDeleteButton/>
+                        </div>
+                    </f:repeatable>
+                </j:scope>
+            </f:block>
+
+        </div>
 
     </f:section>
 
