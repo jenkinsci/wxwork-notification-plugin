@@ -8,8 +8,11 @@ import io.jenkins.plugins.wxwork.protocol.DefaultHttpResponse;
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.zip.GZIPInputStream;
@@ -36,7 +39,7 @@ public class DefaultHttpClient implements HttpClient {
                 defaultHttpResponse.setStatusCode(connection.getResponseCode());
                 defaultHttpResponse.setBody(responseBytes);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             defaultHttpResponse.setStatusCode(500);
             defaultHttpResponse.setErrorMessage(e.getMessage());
         } finally {
@@ -73,7 +76,7 @@ public class DefaultHttpClient implements HttpClient {
         }
     }
 
-    private HttpURLConnection getConnection(URL url, String method, String contentType) throws IOException {
+    private HttpURLConnection getConnection(URL url, String method, String contentType) throws Exception {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         if (connection instanceof HttpsURLConnection) {
             HttpsURLConnection httpsConnection = HttpsURLConnection.class.cast(connection);
@@ -83,7 +86,7 @@ public class DefaultHttpClient implements HttpClient {
                 httpsConnection.setSSLSocketFactory(ctx.getSocketFactory());
                 httpsConnection.setHostnameVerifier(webhookApiHostnameVerifier);
             } catch (Exception e) {
-                httpsConnection.setHostnameVerifier(webhookApiHostnameVerifier);
+                throw new RuntimeException(e);
             }
         }
 

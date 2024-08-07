@@ -2,6 +2,12 @@ package io.jenkins.plugins.wxwork.contract;
 
 import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
 import io.jenkins.plugins.wxwork.enums.MessageType;
+import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
+import io.jenkins.plugins.wxwork.utils.StrUtils;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * <p>RobotMessageTransfer</p>
@@ -23,4 +29,20 @@ public interface RobotMessageTransfer {
      * @param pipelineVars Pipeline参数
      */
     RobotRequest transferRobotRequest(RobotPipelineVars pipelineVars);
+
+    /**
+     * <p>处理文本列表消息</p>
+     *
+     * @param pipelineVars Pipeline参数
+     * @return
+     */
+    default String transferTextList(RobotPipelineVars pipelineVars) {
+        List<String> textCollect = pipelineVars.getText()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(StrUtils::isNotBlank)
+                .map(s -> JenkinsUtils.expandAll(pipelineVars, s))
+                .collect(Collectors.toList());
+        return String.join("\n", textCollect);
+    }
 }
