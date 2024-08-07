@@ -2,6 +2,7 @@ package io.jenkins.plugins.wxwork;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
+import hudson.Extension;
 import hudson.FilePath;
 import hudson.model.Run;
 import hudson.model.TaskListener;
@@ -24,10 +25,7 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author nekoimi 2024/8/6 23:56
@@ -123,7 +121,7 @@ public class WXWorkStep extends Step {
      */
     public void send(Run<?, ?> run, FilePath workspace, EnvVars envVars, TaskListener listener) {
         RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
-        if (property == null) {
+        if (Objects.isNull(property)) {
             listener.error("机器人[%s]配置找不到!", robot);
             return;
         }
@@ -142,10 +140,12 @@ public class WXWorkStep extends Step {
             return;
         }
         RobotResponse robotResponse = robotSender.send(property, robotRequest);
-        if (robotResponse != null && robotResponse.isOk()) {
-            listener.getLogger().println("WXWORK: 微信机器人[" + property.name() + "]推送消息成功!");
-        } else {
-            listener.error(robotResponse.errorMessage());
+        if (Objects.nonNull(robotResponse)) {
+            if (robotResponse.isOk()) {
+                listener.getLogger().println("WXWORK: 微信机器人[" + property.name() + "]推送消息成功!");
+            } else {
+                listener.error("WXWORK: 微信机器人[" + property.name() + "]推送消息失败：" + robotResponse.errorMessage());
+            }
         }
     }
 
@@ -163,6 +163,7 @@ public class WXWorkStep extends Step {
      * 执行
      */
     static class WXWorkStepExecution extends StepExecution {
+        private static final long serialVersionUID = 1L;
         private final transient WXWorkStep step;
 
         public WXWorkStepExecution(WXWorkStep step, @NonNull StepContext context) {
@@ -179,13 +180,19 @@ public class WXWorkStep extends Step {
             EnvVars envVars = context.get(EnvVars.class);
             TaskListener listener = context.get(TaskListener.class);
 
-            this.step.send(run, workspace, envVars, listener);
+            try {
+                this.step.send(run, workspace, envVars, listener);
+                context.onSuccess(true);
+            } catch (Exception e) {
+                context.onFailure(e);
+            }
 
             return true;
         }
     }
 
-    static class WXWorkStepDescriptor extends StepDescriptor {
+    @Extension
+    public static class WXWorkStepDescriptor extends StepDescriptor {
 
         @Override
         public Set<? extends Class<?>> getRequiredContext() {
