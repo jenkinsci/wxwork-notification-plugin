@@ -17,7 +17,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.verb.POST;
 
 import java.util.Objects;
 
@@ -121,7 +120,6 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
          * @param name    机器人名称
          * @param webhook 机器人webhook
          */
-        @POST
         public FormValidation doTest(@QueryParameter("id") String id, @QueryParameter("name") String name, @QueryParameter("webhook") String webhook) {
             Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             RobotProperty property = new WXWorkRobotProperty(id, name, webhook);
@@ -130,8 +128,7 @@ public class WXWorkRobotProperty implements Describable<WXWorkRobotProperty>, Ro
             if (Objects.nonNull(robotResponse)) {
                 if (robotResponse.isOk()) {
                     // ok
-                    String rootUrl = Jenkins.get().getRootUrl();
-                    return FormValidation.respond(FormValidation.Kind.OK, "<img src='" + rootUrl + "/images/16x16/accept.png'>" + "<span style='padding-left:4px;color:#52c41a;font-weight:bold;'>测试成功</span>");
+                    return FormValidation.respond(FormValidation.Kind.OK, "<span style='padding-left:4px;color:#52c41a;font-weight:bold;'>测试成功</span>");
                 } else {
                     return FormValidation.error(robotResponse.errorMessage());
                 }
