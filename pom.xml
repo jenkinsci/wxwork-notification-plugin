@@ -116,12 +116,5 @@
                 <version>1.7</version>
             </extension>
         </extensions>
-        <plugins>
-            <plugin>
-                <groupId>org.jenkins-ci.tools</groupId>
-                <artifactId>maven-hpi-plugin</artifactId>
-                <extensions>true</extensions>
-            </plugin>
-        </plugins>
     </build>
 </project>
