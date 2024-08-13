@@ -57,26 +57,31 @@ public class RobotPipelineVars {
     /**
      * 消息类型
      */
+    @Builder.Default
     private MessageType type = MessageType.TEXT;
 
     /**
      * 是否"@"我自己(当前构建执行人)
      */
+    @Builder.Default
     private Boolean atMe = false;
 
     /**
      * 是否"@"所有人
      */
+    @Builder.Default
     private Boolean atAll = false;
 
     /**
      * "@"成员列表，填写企业微信成员手机号
      */
+    @Builder.Default
     private Set<String> at = new HashSet<>();
 
     /**
      * Text/Markdown消息内容
      */
+    @Builder.Default
     private List<String> text = new ArrayList<>();
 
     /**
