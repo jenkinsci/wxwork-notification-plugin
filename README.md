@@ -9,7 +9,7 @@
     - 配置企业微信机器人：需要在 jenkins 系统配置中配置企业微信机器人，支持配置多个机器人
     - 配置用户的手机号码：需要在 jenkins 用户信息页面，配置企业微信成员手机号码，用于在企业微信中 @ 成员
 
-- Jenkinsfile
+- Jenkinsfile （脚本写法）
 
 ```groovy
 #!groovy
@@ -65,6 +65,108 @@ node {
 
     }
     
+}
+```
+
+- Jenkinsfile （声明式写法）
+
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Hello') {
+            steps {
+                echo 'Hello World'
+                
+                // 发送消息
+                wxwork(
+                    robot: 'test',
+                    type: 'text',
+                    text: [
+                        "stage: Hello",
+                        "displayName: ${currentBuild.displayName}",
+                        "absoluteUrl: ${currentBuild.absoluteUrl}"
+                    ]
+                )
+            }
+        }
+        
+        stage('build') {
+            steps {
+                script {
+                    println "build number: ${currentBuild.number}";
+    			    println "current result: ${currentBuild.currentResult}";
+    			    println "build URL: ${currentBuild.absoluteUrl}";
+    			    
+                    // 发送消息
+                    wxwork(
+                        robot: 'test',
+                        type: 'text',
+                        text: [
+                            "stage: build",
+                            "displayName: ${currentBuild.displayName}",
+                            "absoluteUrl: ${currentBuild.absoluteUrl}"
+                        ]
+                    )
+                }
+            }
+        }
+        
+        
+        stage('some-stage') {
+            steps {
+                script {
+                    println "build number: ${currentBuild.number} - some stage";
+                    
+                    // err
+                    sh "fsdfsdf"
+    			    
+                    // 发送消息
+                    wxwork(
+                        robot: 'test',
+                        type: 'text',
+                        text: [
+                            "stage: some-stage",
+                            "displayName: ${currentBuild.displayName}",
+                            "absoluteUrl: ${currentBuild.absoluteUrl}"
+                        ]
+                    )
+                }
+            }
+        }
+        
+    }
+    
+    post {
+        always {
+            // 无论什么情况都发送消息
+            wxwork(
+                robot: 'test',
+                type: 'text',
+                text: [
+                    "post-always",
+                    "displayName: ${currentBuild.displayName}",
+                    "absoluteUrl: ${currentBuild.absoluteUrl}"
+                ]
+            )
+        }
+        
+        
+        failure {
+            script {
+                // 状态异常
+                wxwork(
+                    robot: 'test',
+                    type: 'text',
+                    text: [
+                        "post-failure",
+                        "displayName: ${currentBuild.displayName}",
+                        "absoluteUrl: ${currentBuild.absoluteUrl}"
+                    ]
+                )
+            }
+        }
+    }
 }
 ```
 
