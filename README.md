@@ -181,8 +181,6 @@ pipeline {
 }
 ```
 
-- 企业微信机器人开发文档: [企业微信官方文档](https://developer.work.weixin.qq.com/document/path/91770?version=4.0.8.6027&platform=win)
-
 ### LICENSE
 
 Licensed under MIT, see [LICENSE](LICENSE)
