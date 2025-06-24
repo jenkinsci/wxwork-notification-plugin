@@ -5,6 +5,7 @@ import io.jenkins.plugins.wxwork.contract.RobotMessageTransfer;
 import io.jenkins.plugins.wxwork.contract.RobotRequest;
 import io.jenkins.plugins.wxwork.transfer.ImageMessageTransfer;
 import io.jenkins.plugins.wxwork.transfer.MarkdownMessageTransfer;
+import io.jenkins.plugins.wxwork.transfer.MarkdownV2MessageTransfer;
 import io.jenkins.plugins.wxwork.transfer.TextMessageTransfer;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class RobotMessageFactory {
     static {
         messageTransferProvider.add(new TextMessageTransfer());
         messageTransferProvider.add(new MarkdownMessageTransfer());
+        messageTransferProvider.add(new MarkdownV2MessageTransfer());
         messageTransferProvider.add(new ImageMessageTransfer());
     }
 }
