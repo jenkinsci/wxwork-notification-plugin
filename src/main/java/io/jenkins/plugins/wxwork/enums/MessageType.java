@@ -19,6 +19,11 @@ public enum MessageType {
     MARKDOWN("markdown"),
 
     /**
+     * markdown_v2
+     */
+    MARKDOWN_V2("markdown_v2"),
+
+    /**
      * 图片消息
      */
     IMAGE("image");
