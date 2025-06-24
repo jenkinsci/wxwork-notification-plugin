@@ -1,12 +1,14 @@
 package io.jenkins.plugins.wxwork.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
 /**
  * <p>HttpMethod</p>
  *
  * @author nekoimi 2022/07/16
  */
+@Getter
 public enum HttpMethod {
 
     /**
@@ -26,11 +28,7 @@ public enum HttpMethod {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    @Override
+  @Override
     public String toString() {
         return getValue();
     }

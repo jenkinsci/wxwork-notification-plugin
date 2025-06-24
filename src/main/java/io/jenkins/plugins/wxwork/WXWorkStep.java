@@ -16,6 +16,7 @@ import io.jenkins.plugins.wxwork.enums.MessageType;
 import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
 import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
+import java.io.Serial;
 import lombok.Getter;
 import lombok.Setter;
 import org.jenkinsci.plugins.workflow.steps.Step;
@@ -163,6 +164,7 @@ public class WXWorkStep extends Step {
      * 执行
      */
     static class WXWorkStepExecution extends StepExecution {
+        @Serial
         private static final long serialVersionUID = 1L;
         private final transient WXWorkStep step;
 
@@ -196,9 +198,9 @@ public class WXWorkStep extends Step {
 
         @Override
         public Set<? extends Class<?>> getRequiredContext() {
-            return new HashSet<Class<?>>() {{
-                add(Run.class);
-                add(TaskListener.class);
+            return new HashSet<>() {{
+              add(Run.class);
+              add(TaskListener.class);
             }};
         }
 
