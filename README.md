@@ -75,7 +75,7 @@ node {
 
         wxwork(
                 robot: 'ID',
-                type: 'markdown',
+                type: 'markdown_v2',
                 text: [
                         "# 一、标题\n## 二级标题\n### 三级标题\n",
                         "# 二、字体\n*斜体*\n\n**加粗**\n",
