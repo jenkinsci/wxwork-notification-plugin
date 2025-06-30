@@ -1,12 +1,14 @@
 package io.jenkins.plugins.wxwork.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
 
 /**
  * <p>消息类型</p>
  *
  * @author nekoimi 2022/07/12
  */
+@Getter
 public enum MessageType {
     /**
      * 文本
@@ -44,11 +46,7 @@ public enum MessageType {
         return null;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    @Override
+  @Override
     public String toString() {
         return getValue();
     }

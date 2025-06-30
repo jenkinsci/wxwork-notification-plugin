@@ -8,7 +8,7 @@ import hudson.model.UserProperty;
 import hudson.model.UserPropertyDescriptor;
 import lombok.Getter;
 import net.sf.json.JSONObject;
-import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerRequest2;
 
 /**
  * <p>Jenkins用户扩展信息</p>
@@ -47,7 +47,7 @@ public class WXWorkUserExtensionProperty extends UserProperty {
         }
 
         @Override
-        public UserProperty newInstance(@Nullable StaplerRequest req, @NonNull JSONObject formData) throws FormException {
+        public UserProperty newInstance(@Nullable StaplerRequest2 req, @NonNull JSONObject formData) throws FormException {
             return WXWorkUserExtensionProperty.of(formData.optString("mobile"));
         }
     }
