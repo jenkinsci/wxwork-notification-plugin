@@ -5,13 +5,10 @@ import io.jenkins.plugins.wxwork.contract.HttpRequest;
 import io.jenkins.plugins.wxwork.contract.HttpResponse;
 import io.jenkins.plugins.wxwork.protocol.DefaultHttpResponse;
 
-import javax.net.ssl.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -20,8 +17,6 @@ import java.util.zip.GZIPInputStream;
  * @author nekoimi 2022/07/16
  */
 public class DefaultHttpClient implements HttpClient {
-    private static final String IGNORE_SSL_DOMAIN = "qyapi.weixin.qq.com";
-    private static final HostnameVerifier webhookApiHostnameVerifier = new WXWorkRobotWebHookApiHostnameVerifier();
 
     @Override
     public HttpResponse send(HttpRequest request) {
@@ -75,16 +70,6 @@ public class DefaultHttpClient implements HttpClient {
 
     private HttpURLConnection getConnection(URL url, String method, String contentType) throws Exception {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        if (connection instanceof HttpsURLConnection httpsConnection) {
-          try {
-                SSLContext ctx = SSLContext.getInstance("TLS");
-                ctx.init(null, new TrustManager[]{new TrustAllTrustManager()}, new SecureRandom());
-                httpsConnection.setSSLSocketFactory(ctx.getSocketFactory());
-                httpsConnection.setHostnameVerifier(webhookApiHostnameVerifier);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
 
         connection.setRequestMethod(method);
         connection.setDoInput(true);
@@ -94,34 +79,5 @@ public class DefaultHttpClient implements HttpClient {
         connection.setConnectTimeout(50000);
         connection.setReadTimeout(50000);
         return connection;
-    }
-
-    private static class TrustAllTrustManager implements X509TrustManager {
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-            return new X509Certificate[]{};
-        }
-
-        @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) {
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) {
-        }
-    }
-
-    private static class WXWorkRobotWebHookApiHostnameVerifier implements HostnameVerifier {
-
-        @Override
-        public boolean verify(String hostname, SSLSession session) {
-            if (IGNORE_SSL_DOMAIN.equals(hostname)) {
-                return true;
-            } else {
-                HostnameVerifier hostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hostnameVerifier.verify(hostname, session);
-            }
-        }
     }
 }

@@ -3,54 +3,9 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-    <st:once>
-        <script>
-            const showWxWorkPluginSettingLoading = el => {
-                el.style.display = "block"
-            }
-            const closeWxWorkPluginSettingLoading = el => {
-                el.style.display = "none"
-            }
-            const findWxWorkPluginTestQuery = (el) => {
-                let id = el.querySelector('input[name="id"]').value;
-                let name = el.querySelector('input[name="name"]').value;
-                let webhook = el.querySelector('input[name="webhook"]').value;
+    <st:adjunct includes="io.jenkins.plugins.wxwork.WXWorkRobotProperty.config"/>
 
-                let dict = {
-                    id: id, name: name, webhook: webhook
-                }
-
-                let qs = "?"
-                for (let k in dict) {
-                    qs += k + "=" + dict[k] + "&amp;"
-                }
-                return qs
-            }
-            const sendWxWorkPluginRobotTest = async (el) => {
-                let $robotBox = el.closest('.wxwork-robot-config')
-                let url = el.getAttribute("data-request-url")
-                let method = el.getAttribute("data-request-method")
-                let loadingBox = el.nextSibling
-                let infoBox = loadingBox.nextSibling
-                // send ajax request with requestUrl
-                let requestUrl = url + "/" + method
-                showWxWorkPluginSettingLoading(loadingBox)
-                // send request
-                let res = await fetch(requestUrl + findWxWorkPluginTestQuery($robotBox), {
-                    method: 'GET'
-                })
-                let resText = await res.text()
-                if (res.status === 200) {
-                    infoBox.innerHTML = resText
-                } else {
-                    infoBox.innerHTML = "测试异常!"
-                }
-                closeWxWorkPluginSettingLoading(loadingBox)
-            }
-        </script>
-    </st:once>
-
-    <div class="wxwork-robot-config" style="width: 100%;">
+    <div class="wxwork-robot-config-container" style="width: 100%;">
 
         <f:entry title="${%robotUniqueID}" field="id">
             <f:textbox name="id"/>
@@ -63,11 +18,10 @@
         </f:entry>
 
         <f:block>
-            <input type="button" value="${%robotTest}" class="validate-button" style="float:right"
+            <input type="button" value="${%robotTest}" class="wxwork-robot-test-button" style="float:right"
                    data-request-url="${descriptor.descriptorFullUrl}"
                    data-request-method="test"
-                   data-validate-button-with="${with}"
-                   onclick="sendWxWorkPluginRobotTest(this)"/>
+                   data-validate-button-with="${with}"/>
             <div style="display:none;">
                 <l:progressAnimation/>
                 ${attrs.progress}
