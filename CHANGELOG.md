@@ -7,6 +7,19 @@
 
 ## [Unreleased]
 
+### Security
+- 🔒 提取内联脚本块和事件处理器（JENKINS-74391）- 将内联 JavaScript 提取到外部文件，符合 CSP 合规性要求
+
+### Changed
+- 🔧 优化机器人配置页面 JavaScript 代码
+  - 使用 `URLSearchParams` 替代手动拼接查询字符串
+  - 添加完整的错误处理和参数验证
+  - 使用事件委托替代 `DOMContentLoaded` 监听
+  - 优化函数命名，提升代码可读性
+  - 优化 CSS class 名称，避免与其他插件冲突
+- 🎨 将 `config.jelly` 内联脚本提取到 `config.js`，使用 `st:adjunct` 标签引用
+- 🎨 移除内联 `onclick` 事件处理器，改用 JavaScript 事件绑定
+
 ### Added
 - 完善 README.md 文档，添加更友好的使用说明
 - 完善 AGENTS.md 文档，为 AI 智能体提供开发指导
