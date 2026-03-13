@@ -3,7 +3,7 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout"
          xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-    <st:adjunct includes="io.jenkins.plugins.wxwork.WXWorkRobotProperty.config"/>
+    <st:adjunct includes="io.jenkins.plugins.wxwork.WXWorkRobotProperty.wxwork-robot-config"/>
 
     <div class="wxwork-robot-config-container" style="width: 100%;">
 
