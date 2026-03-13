@@ -11,6 +11,9 @@
 - 🔒 提取内联脚本块和事件处理器（JENKINS-74391）- 将内联 JavaScript 提取到外部文件，符合 CSP 合规性要求
 - 🔒 修复 SSL 证书验证被禁用的安全漏洞 - 移除 `TrustAllTrustManager` 和自定义 SSLContext，使用 Java 默认的证书验证机制，防止中间人攻击
 
+### Fixed
+- 🐛 修复文件名重复引用导致的 Jenkins 页面视图冲突问题 - 将 `config.js` 重命名为 `wxwork-robot-config.js`，避免与其他配置文件命名冲突
+
 ### Changed
 - 🔧 优化机器人配置页面 JavaScript 代码
   - 使用 `URLSearchParams` 替代手动拼接查询字符串
