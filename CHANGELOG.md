@@ -18,7 +18,7 @@
   - 使用事件委托替代 `DOMContentLoaded` 监听
   - 优化函数命名，提升代码可读性
   - 优化 CSS class 名称，避免与其他插件冲突
-- 🎨 将 `config.jelly` 内联脚本提取到 `config.js`，使用 `st:adjunct` 标签引用
+- 🎨 将 `config.jelly` 内联脚本提取到 `wxwork-robot-config.js`，使用 `st:adjunct` 标签引用
 - 🎨 移除内联 `onclick` 事件处理器，改用 JavaScript 事件绑定
 
 ### Added
