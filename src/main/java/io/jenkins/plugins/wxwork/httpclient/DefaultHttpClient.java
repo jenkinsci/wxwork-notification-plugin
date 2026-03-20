@@ -1,18 +1,19 @@
 package io.jenkins.plugins.wxwork.httpclient;
 
+import hudson.ProxyConfiguration;
 import io.jenkins.plugins.wxwork.contract.HttpClient;
 import io.jenkins.plugins.wxwork.contract.HttpRequest;
 import io.jenkins.plugins.wxwork.contract.HttpResponse;
 import io.jenkins.plugins.wxwork.protocol.DefaultHttpResponse;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.zip.GZIPInputStream;
+import java.net.URI;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse.BodyHandlers;
 
 /**
  * <p>DefaultHttpClient</p>
+ *
+ * <p>使用 Jenkins ProxyConfiguration 提供的 HttpClient，自动处理代理配置</p>
  *
  * @author nekoimi 2022/07/16
  */
@@ -20,64 +21,28 @@ public class DefaultHttpClient implements HttpClient {
 
     @Override
     public HttpResponse send(HttpRequest request) {
-        DefaultHttpResponse defaultHttpResponse = new DefaultHttpResponse();
-        HttpURLConnection connection = null;
+        DefaultHttpResponse response = new DefaultHttpResponse();
         try {
-            URL url = new URL(request.url());
-            connection = getConnection(url, request.method().getValue(), request.contentType());
-            try (OutputStream output = connection.getOutputStream()) {
-                output.write(request.body());
-                byte[] responseBytes = getResponseBytes(connection);
-                defaultHttpResponse.setStatusCode(connection.getResponseCode());
-                defaultHttpResponse.setBody(responseBytes);
-            }
+            // 使用 Jenkins 提供的 HttpClient（自动处理代理）
+            java.net.http.HttpClient httpClient = ProxyConfiguration.newHttpClient();
+
+            // 构建请求
+            java.net.http.HttpRequest.Builder requestBuilder = java.net.http.HttpRequest.newBuilder()
+                    .uri(URI.create(request.url()))
+                    .header("Content-Type", request.contentType())
+                    .method(request.method().getValue(), BodyPublishers.ofByteArray(request.body()));
+
+            // 发送请求
+            java.net.http.HttpResponse<byte[]> httpResponse = httpClient.send(
+                    requestBuilder.build(),
+                    BodyHandlers.ofByteArray());
+
+            response.setStatusCode(httpResponse.statusCode());
+            response.setBody(httpResponse.body());
         } catch (Exception e) {
-            defaultHttpResponse.setStatusCode(500);
-            defaultHttpResponse.setErrorMessage(e.getMessage());
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
+            response.setStatusCode(500);
+            response.setErrorMessage(e.getMessage());
         }
-        return defaultHttpResponse;
-    }
-
-    private byte[] getResponseBytes(HttpURLConnection connection) throws IOException {
-        int code = connection.getResponseCode();
-        if (code < 200 || code > 300) {
-            throw new IOException(code + " " + connection.getResponseMessage());
-        }
-        // default to success
-        String encoding = connection.getContentEncoding();
-        if ("gzip".equalsIgnoreCase(encoding)) {
-            return getStreamAsString(new GZIPInputStream(connection.getInputStream()));
-        } else {
-            return getStreamAsString(connection.getInputStream());
-        }
-    }
-
-    private byte[] getStreamAsString(InputStream stream) throws IOException {
-        try (Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
-            StringBuilder response = new StringBuilder();
-            final char[] buff = new char[1024];
-            int read;
-            while ((read = reader.read(buff)) > 0) {
-                response.append(buff, 0, read);
-            }
-            return response.toString().getBytes(StandardCharsets.UTF_8);
-        }
-    }
-
-    private HttpURLConnection getConnection(URL url, String method, String contentType) throws Exception {
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setRequestMethod(method);
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Host", url.getHost());
-        connection.setRequestProperty("Content-Type", contentType);
-        connection.setConnectTimeout(50000);
-        connection.setReadTimeout(50000);
-        return connection;
+        return response;
     }
 }
