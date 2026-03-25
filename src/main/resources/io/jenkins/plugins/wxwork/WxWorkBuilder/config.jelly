@@ -1,31 +1,44 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
   <f:section title="${%WxWorkBuilder.BasicConfig}">
-    <f:entry title="${%WxWorkBuilder.Robot}" field="robot">
-      <f:select />
+    <f:entry title="${%WxWorkBuilder.Robot}" field="robot"
+             help="/plugin/wxwork-notification/help/robot.html">
+      <f:select data-wxwork-type="false"/>
     </f:entry>
-    <f:entry title="${%WxWorkBuilder.MessageType}" field="type">
-      <f:select />
+    <f:entry title="${%WxWorkBuilder.MessageType}" field="type"
+             help="/plugin/wxwork-notification/help/type.html">
+      <f:select data-wxwork-type="true"/>
     </f:entry>
   </f:section>
 
   <f:section title="${%WxWorkBuilder.MessageContent}">
-    <f:entry title="${%WxWorkBuilder.Content}" field="content">
+    <f:entry title="${%WxWorkBuilder.Content}" field="content"
+             help="/plugin/wxwork-notification/help/content.html">
       <f:textarea default="Build is running..." rows="4"/>
     </f:entry>
   </f:section>
 
   <f:section title="${%WxWorkBuilder.AtSettings}">
-    <f:entry field="atMe"><f:checkbox title="${%WxWorkBuilder.AtExecutor}"/></f:entry>
-    <f:entry field="atAll"><f:checkbox title="${%WxWorkBuilder.AtAll}"/></f:entry>
-    <f:entry title="${%WxWorkBuilder.AtUsers}" field="at">
+    <f:entry field="atMe">
+      <f:checkbox title="${%WxWorkBuilder.AtExecutor}" data-wxwork-atme="true"/>
+    </f:entry>
+    <f:entry field="atAll"
+             help="/plugin/wxwork-notification/help/atAll.html">
+      <f:checkbox title="${%WxWorkBuilder.AtAll}"/>
+    </f:entry>
+    <f:entry title="${%WxWorkBuilder.AtUsers}" field="at"
+             help="/plugin/wxwork-notification/help/at.html">
       <f:textbox />
     </f:entry>
   </f:section>
 
   <f:section title="${%WxWorkBuilder.Advanced}">
-    <f:entry title="${%WxWorkBuilder.ImageUrl}" field="imageUrl">
+    <f:entry title="${%WxWorkBuilder.ImageUrl}" field="imageUrl"
+             class="wxwork-image-url-row"
+             help="/plugin/wxwork-notification/help/imageUrl.html">
       <f:textbox />
     </f:entry>
   </f:section>
+
+  <script src="${rootURL}/plugin/wxwork-notification/js/wxwork-freestyle.js"/>
 </j:jelly>

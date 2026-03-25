@@ -2,48 +2,81 @@
 <j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
   <!-- 基础配置 -->
   <f:section title="${%WxWorkNotifier.BasicConfig}">
-    <f:entry title="${%WxWorkNotifier.Robot}" field="robot">
+    <f:entry title="${%WxWorkNotifier.Robot}" field="robot"
+             help="/plugin/wxwork-notification/help/robot.html">
       <f:select />
     </f:entry>
-    <f:entry title="${%WxWorkNotifier.MessageType}" field="type">
-      <f:select />
+    <f:entry title="${%WxWorkNotifier.MessageType}" field="type"
+             help="/plugin/wxwork-notification/help/type.html">
+      <f:select data-wxwork-type="true"/>
     </f:entry>
   </f:section>
 
   <!-- 通知时机 -->
   <f:section title="${%WxWorkNotifier.NotificationTiming}">
-    <f:entry field="notifySuccess"><f:checkbox title="${%WxWorkNotifier.NotifyOnSuccess}"/></f:entry>
-    <f:entry field="notifyFailure"><f:checkbox title="${%WxWorkNotifier.NotifyOnFailure}"/></f:entry>
-    <f:entry field="notifyUnstable"><f:checkbox title="${%WxWorkNotifier.NotifyOnUnstable}"/></f:entry>
-    <f:entry field="notifyRecovery"><f:checkbox title="${%WxWorkNotifier.NotifyOnRecovery}"/></f:entry>
+    <f:entry field="notifySuccess">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnSuccess}" data-wxwork-notify-success="true"/>
+    </f:entry>
+    <f:entry field="notifyFailure">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnFailure}" data-wxwork-notify-failure="true"/>
+    </f:entry>
+    <f:entry field="notifyUnstable">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnUnstable}" data-wxwork-notify-unstable="true"/>
+    </f:entry>
+    <f:entry field="notifyRecovery"
+             help="/plugin/wxwork-notification/help/notifyRecovery.html">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnRecovery}" data-wxwork-notify-recovery="true"/>
+    </f:entry>
   </f:section>
 
   <!-- 消息内容 -->
   <f:section title="${%WxWorkNotifier.MessageContent}">
-    <f:entry title="${%WxWorkNotifier.SuccessContent}" field="successContent">
+    <f:entry title="${%WxWorkNotifier.SuccessContent}" field="successContent"
+             class="wxwork-success-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
       <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: SUCCESS&#10;${BUILD_URL}" rows="6"/>
     </f:entry>
-    <f:entry title="${%WxWorkNotifier.FailureContent}" field="failureContent">
+    <f:entry title="${%WxWorkNotifier.FailureContent}" field="failureContent"
+             class="wxwork-failure-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
       <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: FAILURE&#10;${BUILD_URL}" rows="6"/>
     </f:entry>
-    <f:entry title="${%WxWorkNotifier.UnstableContent}" field="unstableContent">
+    <f:entry title="${%WxWorkNotifier.UnstableContent}" field="unstableContent"
+             class="wxwork-unstable-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
       <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: UNSTABLE&#10;${BUILD_URL}" rows="6"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.RecoveryContent}" field="recoveryContent"
+             class="wxwork-recovery-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: RECOVERED&#10;${BUILD_URL}" rows="6"/>
     </f:entry>
   </f:section>
 
   <!-- @设置 -->
   <f:section title="${%WxWorkNotifier.AtSettings}">
-    <f:entry field="atMe"><f:checkbox title="${%WxWorkNotifier.AtExecutor}"/></f:entry>
-    <f:entry field="atAll"><f:checkbox title="${%WxWorkNotifier.AtAll}"/></f:entry>
-    <f:entry title="${%WxWorkNotifier.AtUsers}" field="at">
+    <f:entry field="atMe"
+             help="/plugin/wxwork-notification/help/atMe.html">
+      <f:checkbox title="${%WxWorkNotifier.AtExecutor}"/>
+    </f:entry>
+    <f:entry field="atAll"
+             help="/plugin/wxwork-notification/help/atAll.html">
+      <f:checkbox title="${%WxWorkNotifier.AtAll}"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.AtUsers}" field="at"
+             help="/plugin/wxwork-notification/help/at.html">
       <f:textbox />
     </f:entry>
   </f:section>
 
   <!-- 高级 -->
   <f:section title="${%WxWorkNotifier.Advanced}">
-    <f:entry title="${%WxWorkNotifier.ImageUrl}" field="imageUrl">
+    <f:entry title="${%WxWorkNotifier.ImageUrl}" field="imageUrl"
+             class="wxwork-image-url-row"
+             help="/plugin/wxwork-notification/help/imageUrl.html">
       <f:textbox />
     </f:entry>
   </f:section>
+
+  <script src="${rootURL}/plugin/wxwork-notification/js/wxwork-freestyle.js"/>
 </j:jelly>

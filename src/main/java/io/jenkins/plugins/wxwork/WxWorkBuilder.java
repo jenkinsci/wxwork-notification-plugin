@@ -7,24 +7,14 @@ import hudson.Launcher;
 import hudson.model.*;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
-import io.jenkins.plugins.wxwork.bo.RobotPipelineVars;
-import io.jenkins.plugins.wxwork.bo.RunUser;
 import io.jenkins.plugins.wxwork.contract.RobotMessageSender;
-import io.jenkins.plugins.wxwork.contract.RobotProperty;
-import io.jenkins.plugins.wxwork.contract.RobotRequest;
-import io.jenkins.plugins.wxwork.contract.RobotResponse;
 import io.jenkins.plugins.wxwork.enums.MessageType;
-import io.jenkins.plugins.wxwork.factory.RobotMessageFactory;
 import io.jenkins.plugins.wxwork.robot.WXWorkRobotMessageSender;
-import io.jenkins.plugins.wxwork.utils.JenkinsUtils;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import hudson.util.ListBoxModel;
+import lombok.AccessLevel;
 import lombok.Getter;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -47,7 +37,12 @@ public class WxWorkBuilder extends Builder {
     /**
      * Message type
      */
+    @Getter(AccessLevel.NONE)
     private MessageType type = MessageType.TEXT;
+
+    public String getType() {
+        return type.getValue();
+    }
 
     /**
      * Message content (multiline)
@@ -113,78 +108,8 @@ public class WxWorkBuilder extends Builder {
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
-        // Get robot config
-        RobotProperty property = WXWorkGlobalConfig.instance().getRobotPropertyById(robot);
-        if (Objects.isNull(property)) {
-            listener.error("WXWORK: Robot [%s] configuration not found!", robot);
-            return true;
-        }
-
-        // Get workspace
-        FilePath workspace = build.getWorkspace();
-
-        // Expand content
-        String expandedContent = JenkinsUtils.expandAll(build, workspace, listener, content);
-        List<String> textLines = new ArrayList<>();
-        if (expandedContent != null && !expandedContent.isEmpty()) {
-            textLines = Arrays.asList(expandedContent.split("\\R"));
-        }
-
-        // Process at list
-        Set<String> atSet = new HashSet<>();
-        if (at != null && !at.isEmpty()) {
-            String[] mobiles = at.split(",");
-            for (String mobile : mobiles) {
-                String trimmed = mobile.trim();
-                if (!trimmed.isEmpty()) {
-                    atSet.add(trimmed);
-                }
-            }
-        }
-
-        // Get run user
-        RunUser runUser = JenkinsUtils.getRunUser(build, listener);
-
-        // Process atMe - add build user mobile to at list
-        if (atMe && runUser.getMobile() != null && !runUser.getMobile().isEmpty()) {
-            atSet.add(runUser.getMobile());
-        }
-
-        // Expand image URL
-        String expandedImageUrl = null;
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            expandedImageUrl = JenkinsUtils.expandAll(build, workspace, listener, imageUrl);
-        }
-
-        // Build pipeline vars and send
-        var envVars = build.getEnvironment(listener);
-        RobotPipelineVars pipelineVars = RobotPipelineVars.builder()
-                .run(build).envVars(envVars).workspace(workspace).listener(listener)
-                .runUser(runUser)
-                .robot(robot)
-                .type(this.type)
-                .atMe(this.atMe)
-                .atAll(this.atAll)
-                .at(atSet)
-                .text(textLines)
-                .imageUrl(expandedImageUrl)
-                .build();
-
-        RobotRequest robotRequest = RobotMessageFactory.makeRobotRequest(pipelineVars);
-        if (robotRequest == null) {
-            listener.error("WXWORK: Unsupported message type");
-            return true;
-        }
-
-        RobotResponse robotResponse = robotSender.send(property, robotRequest);
-        if (Objects.nonNull(robotResponse)) {
-            if (robotResponse.isOk()) {
-                listener.getLogger().println("WXWORK: WeChat robot [" + property.name() + "] notification sent successfully!");
-            } else {
-                listener.error("WXWORK: WeChat robot [" + property.name() + "] notification failed: " + robotResponse.errorMessage());
-            }
-        }
-
+        Set<String> atSet = FreeStyleJobHelper.parseAtSet(at);
+        FreeStyleJobHelper.sendMessage(build, listener, robotSender, robot, type, content, atMe, atAll, atSet, imageUrl);
         return true;
     }
 
