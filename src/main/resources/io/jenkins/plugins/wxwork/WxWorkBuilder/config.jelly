@@ -1,5 +1,7 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <!-- 用变量保存 $ 符号，避免 Jelly EL 求值吃掉 ${VAR} 占位符 -->
+  <j:set var="D" value="$"/>
   <f:section title="${%WxWorkBuilder.BasicConfig}">
     <f:entry title="${%WxWorkBuilder.Robot}" field="robot"
              help="/plugin/wxwork-notification/help/robot.html">
@@ -14,7 +16,7 @@
   <f:section title="${%WxWorkBuilder.MessageContent}">
     <f:entry title="${%WxWorkBuilder.Content}" field="content"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="【构建通知】${JOB_NAME}&#10;状态：🚀 正在构建&#10;构建编号：#${BUILD_NUMBER}&#10;构建节点：${NODE_NAME}&#10;触发分支：${GIT_BRANCH}&#10;构建详情：${BUILD_URL}" rows="7"/>
+      <f:textarea default="【构建通知】${D}{JOB_NAME}&#10;状态：🚀 正在构建&#10;构建编号：#${D}{BUILD_NUMBER}&#10;构建节点：${D}{NODE_NAME}&#10;触发分支：${D}{GIT_BRANCH}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
     </f:entry>
   </f:section>
 

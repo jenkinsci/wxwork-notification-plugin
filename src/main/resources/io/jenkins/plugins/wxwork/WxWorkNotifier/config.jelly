@@ -1,5 +1,7 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <!-- 用变量保存 $ 符号，避免 Jelly EL 求值吃掉 ${VAR} 占位符 -->
+  <j:set var="D" value="$"/>
   <!-- 基础配置 -->
   <f:section title="${%WxWorkNotifier.BasicConfig}">
     <f:entry title="${%WxWorkNotifier.Robot}" field="robot"
@@ -34,22 +36,22 @@
     <f:entry title="${%WxWorkNotifier.SuccessContent}" field="successContent"
              class="wxwork-success-content-row"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="【构建成功】${JOB_NAME}&#10;状态：✅ 构建成功&#10;构建编号：#${BUILD_NUMBER}&#10;触发分支：${GIT_BRANCH}&#10;提交记录：${GIT_COMMIT}&#10;构建详情：${BUILD_URL}" rows="7"/>
+      <f:textarea default="【构建成功】${D}{JOB_NAME}&#10;状态：✅ 构建成功&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
     </f:entry>
     <f:entry title="${%WxWorkNotifier.FailureContent}" field="failureContent"
              class="wxwork-failure-content-row"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="【构建失败】${JOB_NAME}&#10;状态：❌ 构建失败&#10;构建编号：#${BUILD_NUMBER}&#10;触发分支：${GIT_BRANCH}&#10;提交记录：${GIT_COMMIT}&#10;构建详情：${BUILD_URL}" rows="7"/>
+      <f:textarea default="【构建失败】${D}{JOB_NAME}&#10;状态：❌ 构建失败&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
     </f:entry>
     <f:entry title="${%WxWorkNotifier.UnstableContent}" field="unstableContent"
              class="wxwork-unstable-content-row"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="【构建不稳定】${JOB_NAME}&#10;状态：⚠️ 构建不稳定&#10;构建编号：#${BUILD_NUMBER}&#10;触发分支：${GIT_BRANCH}&#10;提交记录：${GIT_COMMIT}&#10;构建详情：${BUILD_URL}" rows="7"/>
+      <f:textarea default="【构建不稳定】${D}{JOB_NAME}&#10;状态：⚠️ 构建不稳定&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
     </f:entry>
     <f:entry title="${%WxWorkNotifier.RecoveryContent}" field="recoveryContent"
              class="wxwork-recovery-content-row"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="【构建恢复】${JOB_NAME}&#10;状态：🔄 已恢复正常&#10;构建编号：#${BUILD_NUMBER}&#10;触发分支：${GIT_BRANCH}&#10;提交记录：${GIT_COMMIT}&#10;构建详情：${BUILD_URL}" rows="7"/>
+      <f:textarea default="【构建恢复】${D}{JOB_NAME}&#10;状态：🔄 已恢复正常&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
     </f:entry>
   </f:section>
 
