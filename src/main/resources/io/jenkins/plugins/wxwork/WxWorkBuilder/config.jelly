@@ -1,0 +1,31 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <f:section title="${%WxWorkBuilder.BasicConfig}">
+    <f:entry title="${%WxWorkBuilder.Robot}" field="robot">
+      <f:select />
+    </f:entry>
+    <f:entry title="${%WxWorkBuilder.MessageType}" field="type">
+      <f:select />
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.MessageContent}">
+    <f:entry title="${%WxWorkBuilder.Content}" field="content">
+      <f:textarea default="Build is running..." rows="4"/>
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.AtSettings}">
+    <f:entry field="atMe"><f:checkbox title="${%WxWorkBuilder.AtExecutor}"/></f:entry>
+    <f:entry field="atAll"><f:checkbox title="${%WxWorkBuilder.AtAll}"/></f:entry>
+    <f:entry title="${%WxWorkBuilder.AtUsers}" field="at">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.Advanced}">
+    <f:entry title="${%WxWorkBuilder.ImageUrl}" field="imageUrl">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+</j:jelly>

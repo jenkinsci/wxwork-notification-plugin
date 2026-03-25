@@ -1,0 +1,49 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <!-- 基础配置 -->
+  <f:section title="${%WxWorkNotifier.BasicConfig}">
+    <f:entry title="${%WxWorkNotifier.Robot}" field="robot">
+      <f:select />
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.MessageType}" field="type">
+      <f:select />
+    </f:entry>
+  </f:section>
+
+  <!-- 通知时机 -->
+  <f:section title="${%WxWorkNotifier.NotificationTiming}">
+    <f:entry field="notifySuccess"><f:checkbox title="${%WxWorkNotifier.NotifyOnSuccess}"/></f:entry>
+    <f:entry field="notifyFailure"><f:checkbox title="${%WxWorkNotifier.NotifyOnFailure}"/></f:entry>
+    <f:entry field="notifyUnstable"><f:checkbox title="${%WxWorkNotifier.NotifyOnUnstable}"/></f:entry>
+    <f:entry field="notifyRecovery"><f:checkbox title="${%WxWorkNotifier.NotifyOnRecovery}"/></f:entry>
+  </f:section>
+
+  <!-- 消息内容 -->
+  <f:section title="${%WxWorkNotifier.MessageContent}">
+    <f:entry title="${%WxWorkNotifier.SuccessContent}" field="successContent">
+      <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: SUCCESS&#10;${BUILD_URL}" rows="6"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.FailureContent}" field="failureContent">
+      <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: FAILURE&#10;${BUILD_URL}" rows="6"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.UnstableContent}" field="unstableContent">
+      <f:textarea default="project: ${JOB_NAME}&#10;build: #${BUILD_NUMBER}&#10;status: UNSTABLE&#10;${BUILD_URL}" rows="6"/>
+    </f:entry>
+  </f:section>
+
+  <!-- @设置 -->
+  <f:section title="${%WxWorkNotifier.AtSettings}">
+    <f:entry field="atMe"><f:checkbox title="${%WxWorkNotifier.AtExecutor}"/></f:entry>
+    <f:entry field="atAll"><f:checkbox title="${%WxWorkNotifier.AtAll}"/></f:entry>
+    <f:entry title="${%WxWorkNotifier.AtUsers}" field="at">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <!-- 高级 -->
+  <f:section title="${%WxWorkNotifier.Advanced}">
+    <f:entry title="${%WxWorkNotifier.ImageUrl}" field="imageUrl">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+</j:jelly>
