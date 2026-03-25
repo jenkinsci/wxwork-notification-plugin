@@ -14,7 +14,7 @@
   <f:section title="${%WxWorkBuilder.MessageContent}">
     <f:entry title="${%WxWorkBuilder.Content}" field="content"
              help="/plugin/wxwork-notification/help/content.html">
-      <f:textarea default="Build is running..." rows="4"/>
+      <f:textarea default="【构建通知】${JOB_NAME}&#10;状态：🚀 正在构建&#10;构建编号：#${BUILD_NUMBER}&#10;构建节点：${NODE_NAME}&#10;触发分支：${GIT_BRANCH}&#10;构建详情：${BUILD_URL}" rows="7"/>
     </f:entry>
   </f:section>
 
