@@ -7,14 +7,22 @@
 
 ## [Unreleased]
 
-### Security
-- 🔒 提取内联脚本块和事件处理器（JENKINS-74391）- 将内联 JavaScript 提取到外部文件，符合 CSP 合规性要求
-- 🔒 修复 SSL 证书验证被禁用的安全漏洞 - 移除 `TrustAllTrustManager` 和自定义 SSLContext，使用 Java 默认的证书验证机制，防止中间人攻击
-
-### Fixed
-- 🐛 修复文件名重复引用导致的 Jenkins 页面视图冲突问题 - 将 `config.js` 重命名为 `wxwork-robot-config.js`，避免与其他配置文件命名冲突
+### Added
+- ✨ **新增 FreeStyle 项目支持**
+  - `WxWorkBuilder`：Build Step，在构建过程中的任意阶段发送通知
+  - `WxWorkNotifier`：Post-build Action，根据构建结果（成功/失败/不稳定/恢复）有选择性地发送通知
+  - `recoveryContent`：恢复场景独立消息字段，未配置时自动回退到成功消息内容，向下兼容
+  - 消息类型下拉选项添加可读标题（title）
+- ✨ **新增 UI 联动交互**
+  - 消息类型切换为非 `image` 时，自动隐藏图片地址输入框
+  - 通知时机 checkbox 取消勾选时，自动隐藏对应消息内容 textarea
+- ✨ **新增字段帮助提示（? 图标）**，覆盖 robot、type、at、atMe、atAll、imageUrl、content、notifyRecovery 等关键字段
+- 完善 README.md 文档，添加更友好的使用说明
+- 完善 AGENTS.md 文档，为 AI 智能体提供开发指导
 
 ### Changed
+- 🔧 提取 `FreeStyleJobHelper` 公共工具类，消除 `WxWorkBuilder` 与 `WxWorkNotifier` 之间的重复代码
+- 🎨 优化 FreeStyle 配置页面默认消息内容，统一包含项目名、构建编号、分支、提交记录、详情链接及状态 emoji
 - 🔧 优化机器人配置页面 JavaScript 代码
   - 使用 `URLSearchParams` 替代手动拼接查询字符串
   - 添加完整的错误处理和参数验证
@@ -24,9 +32,14 @@
 - 🎨 将 `config.jelly` 内联脚本提取到 `wxwork-robot-config.js`，使用 `st:adjunct` 标签引用
 - 🎨 移除内联 `onclick` 事件处理器，改用 JavaScript 事件绑定
 
-### Added
-- 完善 README.md 文档，添加更友好的使用说明
-- 完善 AGENTS.md 文档，为 AI 智能体提供开发指导
+### Fixed
+- 🐛 修复 FreeStyle 模式下 `atMe` 双重处理问题 — 删除手动将执行人手机号加入 at 列表的冗余逻辑，由 Transfer 层统一处理
+- 🐛 修复 FreeStyle 配置页面默认消息内容中 Jenkins 变量占位符（`${JOB_NAME}` 等）被 Jelly EL 求值为空字符串的问题
+- 🐛 修复文件名重复引用导致的 Jenkins 页面视图冲突问题 — 将 `config.js` 重命名为 `wxwork-robot-config.js`，避免与其他配置文件命名冲突
+
+### Security
+- 🔒 提取内联脚本块和事件处理器（JENKINS-74391）— 将内联 JavaScript 提取到外部文件，符合 CSP 合规性要求
+- 🔒 修复 SSL 证书验证被禁用的安全漏洞 — 移除 `TrustAllTrustManager` 和自定义 SSLContext，使用 Java 默认的证书验证机制，防止中间人攻击
 
 ## [1.0.2] - 2025-06-24
 
