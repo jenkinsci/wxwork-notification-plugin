@@ -321,7 +321,7 @@ public class WxWorkNotifier extends Notifier {
         public ListBoxModel doFillTypeItems() {
             ListBoxModel listBoxModel = new ListBoxModel();
             Arrays.asList(MessageType.values()).forEach(messageType -> {
-                listBoxModel.add(messageType.getValue());
+                listBoxModel.add(messageType.getTitle(), messageType.getValue());
             });
             return listBoxModel;
         }
