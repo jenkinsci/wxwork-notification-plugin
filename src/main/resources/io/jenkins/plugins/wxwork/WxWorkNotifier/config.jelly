@@ -1,0 +1,84 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <!-- 用变量保存 $ 符号，避免 Jelly EL 求值吃掉 ${VAR} 占位符 -->
+  <j:set var="D" value="$"/>
+  <!-- 基础配置 -->
+  <f:section title="${%WxWorkNotifier.BasicConfig}">
+    <f:entry title="${%WxWorkNotifier.Robot}" field="robot"
+             help="/plugin/wxwork-notification/help/robot.html">
+      <f:select />
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.MessageType}" field="type"
+             help="/plugin/wxwork-notification/help/type.html">
+      <f:select data-wxwork-type="true"/>
+    </f:entry>
+  </f:section>
+
+  <!-- 通知时机 -->
+  <f:section title="${%WxWorkNotifier.NotificationTiming}">
+    <f:entry field="notifySuccess">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnSuccess}" data-wxwork-notify-success="true"/>
+    </f:entry>
+    <f:entry field="notifyFailure">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnFailure}" data-wxwork-notify-failure="true"/>
+    </f:entry>
+    <f:entry field="notifyUnstable">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnUnstable}" data-wxwork-notify-unstable="true"/>
+    </f:entry>
+    <f:entry field="notifyRecovery"
+             help="/plugin/wxwork-notification/help/notifyRecovery.html">
+      <f:checkbox title="${%WxWorkNotifier.NotifyOnRecovery}" data-wxwork-notify-recovery="true"/>
+    </f:entry>
+  </f:section>
+
+  <!-- 消息内容 -->
+  <f:section title="${%WxWorkNotifier.MessageContent}">
+    <f:entry title="${%WxWorkNotifier.SuccessContent}" field="successContent"
+             class="wxwork-success-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="【构建成功】${D}{JOB_NAME}&#10;状态：✅ 构建成功&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.FailureContent}" field="failureContent"
+             class="wxwork-failure-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="【构建失败】${D}{JOB_NAME}&#10;状态：❌ 构建失败&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.UnstableContent}" field="unstableContent"
+             class="wxwork-unstable-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="【构建不稳定】${D}{JOB_NAME}&#10;状态：⚠️ 构建不稳定&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.RecoveryContent}" field="recoveryContent"
+             class="wxwork-recovery-content-row"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="【构建恢复】${D}{JOB_NAME}&#10;状态：🔄 已恢复正常&#10;构建编号：#${D}{BUILD_NUMBER}&#10;触发分支：${D}{GIT_BRANCH}&#10;提交记录：${D}{GIT_COMMIT}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
+    </f:entry>
+  </f:section>
+
+  <!-- @设置 -->
+  <f:section title="${%WxWorkNotifier.AtSettings}">
+    <f:entry field="atMe"
+             help="/plugin/wxwork-notification/help/atMe.html">
+      <f:checkbox title="${%WxWorkNotifier.AtExecutor}"/>
+    </f:entry>
+    <f:entry field="atAll"
+             help="/plugin/wxwork-notification/help/atAll.html">
+      <f:checkbox title="${%WxWorkNotifier.AtAll}"/>
+    </f:entry>
+    <f:entry title="${%WxWorkNotifier.AtUsers}" field="at"
+             help="/plugin/wxwork-notification/help/at.html">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <!-- 高级 -->
+  <f:section title="${%WxWorkNotifier.Advanced}">
+    <f:entry title="${%WxWorkNotifier.ImageUrl}" field="imageUrl"
+             class="wxwork-image-url-row"
+             help="/plugin/wxwork-notification/help/imageUrl.html">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <script src="${rootURL}/plugin/wxwork-notification/js/wxwork-freestyle.js"/>
+</j:jelly>

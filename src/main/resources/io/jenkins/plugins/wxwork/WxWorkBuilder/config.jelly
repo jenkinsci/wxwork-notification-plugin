@@ -1,0 +1,46 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="lib/form">
+  <!-- 用变量保存 $ 符号，避免 Jelly EL 求值吃掉 ${VAR} 占位符 -->
+  <j:set var="D" value="$"/>
+  <f:section title="${%WxWorkBuilder.BasicConfig}">
+    <f:entry title="${%WxWorkBuilder.Robot}" field="robot"
+             help="/plugin/wxwork-notification/help/robot.html">
+      <f:select data-wxwork-type="false"/>
+    </f:entry>
+    <f:entry title="${%WxWorkBuilder.MessageType}" field="type"
+             help="/plugin/wxwork-notification/help/type.html">
+      <f:select data-wxwork-type="true"/>
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.MessageContent}">
+    <f:entry title="${%WxWorkBuilder.Content}" field="content"
+             help="/plugin/wxwork-notification/help/content.html">
+      <f:textarea default="【构建通知】${D}{JOB_NAME}&#10;状态：🚀 正在构建&#10;构建编号：#${D}{BUILD_NUMBER}&#10;构建节点：${D}{NODE_NAME}&#10;触发分支：${D}{GIT_BRANCH}&#10;构建详情：${D}{BUILD_URL}" rows="7"/>
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.AtSettings}">
+    <f:entry field="atMe">
+      <f:checkbox title="${%WxWorkBuilder.AtExecutor}" data-wxwork-atme="true"/>
+    </f:entry>
+    <f:entry field="atAll"
+             help="/plugin/wxwork-notification/help/atAll.html">
+      <f:checkbox title="${%WxWorkBuilder.AtAll}"/>
+    </f:entry>
+    <f:entry title="${%WxWorkBuilder.AtUsers}" field="at"
+             help="/plugin/wxwork-notification/help/at.html">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <f:section title="${%WxWorkBuilder.Advanced}">
+    <f:entry title="${%WxWorkBuilder.ImageUrl}" field="imageUrl"
+             class="wxwork-image-url-row"
+             help="/plugin/wxwork-notification/help/imageUrl.html">
+      <f:textbox />
+    </f:entry>
+  </f:section>
+
+  <script src="${rootURL}/plugin/wxwork-notification/js/wxwork-freestyle.js"/>
+</j:jelly>

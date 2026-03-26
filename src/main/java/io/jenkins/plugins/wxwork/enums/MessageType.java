@@ -13,27 +13,30 @@ public enum MessageType {
     /**
      * 文本
      */
-    TEXT("text"),
+    TEXT("文本消息", "text"),
 
     /**
      * markdown
      */
-    MARKDOWN("markdown"),
+    MARKDOWN("Markdown消息","markdown"),
 
     /**
      * markdown_v2
      */
-    MARKDOWN_V2("markdown_v2"),
+    MARKDOWN_V2("MarkdownV2消息","markdown_v2"),
 
     /**
      * 图片消息
      */
-    IMAGE("image");
+    IMAGE("图片消息","image");
+
+    private final String title;
 
     @JsonValue
     private final String value;
 
-    MessageType(String value) {
+    MessageType(String title, String value) {
+        this.title = title;
         this.value = value;
     }
 
