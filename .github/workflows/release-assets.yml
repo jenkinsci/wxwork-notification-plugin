@@ -96,6 +96,5 @@ jobs:
           files: ${{ steps.artifact.outputs.path }}
           tag_name: ${{ github.event.release.tag_name }}
           fail_on_unmatched_files: true
-          overwrite_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
