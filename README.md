@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/logo.png" alt="logo图片" width="200" />
+  <img src="docs/logo.png" alt="logo图片" width="300" />
 </p>
 
 <p align="center">
