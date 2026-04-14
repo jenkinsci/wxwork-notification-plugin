@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-这是一个用于企业微信（WeChat Work）通知的 Jenkins 插件。它提供了一个 Pipeline 步骤 `wxwork()`，用于向企业微信机器人发送消息。
+这是一个用于企业微信（WeChat Work）通知的 Jenkins 插件。它提供了一个 Pipeline 步骤 `wxwork()`，用于向企业微信群机器人发送消息。
 
 - **开发语言**: Java 17/21
 - **构建工具**: Maven
@@ -140,13 +140,13 @@ import org.kohsuke.stapler.DataBoundConstructor;
 **示例:**
 ```java
 /**
- * <p>企业微信机器人消息发送器</p>
+ * <p>企业微信群机器人消息发送器</p>
  *
  * @author nekoimi 2022/07/15
  */
 public class WXWorkRobotMessageSender {
     /**
-     * <p>发送消息到企业微信机器人</p>
+     * <p>发送消息到企业微信群机器人</p>
      *
      * @param property 机器人配置属性
      * @param request 消息请求对象

@@ -1,5 +1,5 @@
 /**
- * <p>企业微信机器人配置页面脚本</p>
+ * <p>企业微信群机器人配置页面脚本</p>
  * <p>用于处理机器人配置界面的测试功能</p>
  *
  * @author wxwork-notification-plugin
@@ -44,7 +44,7 @@ const buildTestQuery = (container) => {
 };
 
 /**
- * 发送企业微信机器人测试消息
+ * 发送企业微信群机器人测试消息
  * @param {HTMLElement} button - 测试按钮元素
  */
 const sendTestMessage = async (button) => {

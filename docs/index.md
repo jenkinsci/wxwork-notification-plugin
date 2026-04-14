@@ -1,14 +1,14 @@
 ---
 layout: home
-title: 企业微信机器人通知插件
+title: 企业微信群机器人通知插件
 titleTemplate: false
 
 hero:
-  name: 企业微信机器人通知插件
-  tagline: 在 FreeStyle 和 Pipeline 项目中快速发送企业微信机器人通知，适用于构建开始、结果汇总、失败告警和恢复提醒。
+  name: 企业微信群机器人通知插件
+  tagline: 在 FreeStyle 和 Pipeline 项目中快速发送企业微信群机器人通知，适用于构建开始、结果汇总、失败告警和恢复提醒。
   image:
     src: /logo.png
-    alt: 企业微信机器人通知插件
+    alt: 企业微信群机器人通知插件
   actions:
     - theme: brand
       text: 开始使用
@@ -34,7 +34,7 @@ features:
 ## 快速上手
 
 1. 阅读 [安装](/guide/install) 完成插件部署。
-2. 进入 [前置配置](/guide/configuration) 添加企业微信机器人并配置用户手机号。
+2. 进入 [前置配置](/guide/configuration) 添加企业微信群机器人并配置用户手机号。
 3. 按任务类型选择：
    - FreeStyle：参考 [FreeStyle 项目](/guide/freestyle) 在页面中添加“发送企业微信通知”步骤
    - Pipeline：参考 [Pipeline 项目](/guide/pipeline) 在 Jenkinsfile 中调用 `wxwork(...)`
@@ -52,4 +52,4 @@ features:
 - [插件主页](https://plugins.jenkins.io/wxwork-notification/)
 - [源码仓库](https://github.com/jenkinsci/wxwork-notification-plugin)
 - [Issue 列表](https://github.com/jenkinsci/wxwork-notification-plugin/issues)
-- [企业微信机器人官方文档](https://developer.work.weixin.qq.com/document/path/99110)
+- [企业微信群机器人官方文档](https://developer.work.weixin.qq.com/document/path/99110)

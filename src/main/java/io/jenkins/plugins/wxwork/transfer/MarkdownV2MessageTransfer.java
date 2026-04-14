@@ -9,7 +9,7 @@ import io.jenkins.plugins.wxwork.enums.MessageType;
 /**
  * @author nekoimi 2025/6/24 14:18
  * <p>
- * 企业微信机器人markdown_v2消息，对markdown支持更全面
+ * 企业微信群机器人markdown_v2消息，对markdown支持更全面
  * https://developer.work.weixin.qq.com/document/path/91770#markdown-v2%E7%B1%BB%E5%9E%8B
  */
 public class MarkdownV2MessageTransfer implements RobotMessageTransfer {
