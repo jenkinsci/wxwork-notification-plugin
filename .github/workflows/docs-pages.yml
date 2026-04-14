@@ -7,7 +7,7 @@ on:
     paths:
       - "docs/**"
       - "package.json"
-      - "pnpm-lock.yaml"
+      - "package-lock.json"
       - ".github/workflows/docs-pages.yml"
   workflow_dispatch:
 
@@ -27,17 +27,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          cache: true
-          run_install: false
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Build VitePress
-        run: pnpm docs:build
+        run: npm run docs:build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
