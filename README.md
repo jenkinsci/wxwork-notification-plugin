@@ -1,7 +1,7 @@
 # 企业微信群机器人通知插件 (WXWork Notification Plugin)
 
 <p align="center">
-  <img src="docs/logo.png" alt="logo图片" width="300" />
+  <img src="docs/public/logo.png" alt="logo图片" width="300" />
 </p>
 
 <p align="center">
