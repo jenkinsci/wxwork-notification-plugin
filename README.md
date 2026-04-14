@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-    ![docs/logo.png](docs/logo.png)
+  <img src="docs/logo.png" alt="logo图片" />
 </p>
 
 <p align="center">
@@ -36,7 +36,7 @@
 
 ## 📄 在线文档
 
-[这是文档！！！](https://jenkinsci.github.io/wxwork-notification-plugin/)
+### [能看到吗？这是文档！！！](https://jenkinsci.github.io/wxwork-notification-plugin/)
 
 ---
 
