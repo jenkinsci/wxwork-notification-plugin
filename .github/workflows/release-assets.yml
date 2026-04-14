@@ -1,0 +1,101 @@
+name: Release Assets
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  upload-hpi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ github.event.release.tag_name }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          tag_name="${{ github.event.release.tag_name }}"
+          version="${tag_name#v}"
+
+          if [[ -z "$version" ]]; then
+            echo "Release tag is empty" >&2
+            exit 1
+          fi
+
+          echo "tag_name=$tag_name" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Validate tag against pom revision
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python3 - <<'PY'
+          import os
+          import xml.etree.ElementTree as ET
+
+          pom = ET.parse("pom.xml").getroot()
+          ns = {"m": "http://maven.apache.org/POM/4.0.0"}
+          props = pom.find("m:properties", ns)
+
+          if props is None:
+              raise SystemExit("Cannot find <properties> in pom.xml")
+
+          revision = props.findtext("m:revision", default="", namespaces=ns).strip()
+          if not revision:
+              raise SystemExit("Cannot find <revision> in pom.xml")
+
+          release_version = os.environ["RELEASE_VERSION"].strip()
+          if revision != release_version:
+              raise SystemExit(
+                  f"Release tag version '{release_version}' does not match pom revision '{revision}'"
+              )
+
+          print(f"Validated release version: {release_version}")
+          PY
+
+      - name: Build HPI package
+        run: mvn -B clean package -DskipTests
+
+      - name: Locate HPI artifact
+        id: artifact
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(target/*.hpi)
+
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "No .hpi artifact found under target/" >&2
+            exit 1
+          fi
+
+          if [[ ${#files[@]} -gt 1 ]]; then
+            printf 'Multiple .hpi artifacts found:\n%s\n' "${files[@]}" >&2
+            exit 1
+          fi
+
+          echo "path=${files[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload HPI to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.artifact.outputs.path }}
+          tag_name: ${{ github.event.release.tag_name }}
+          fail_on_unmatched_files: true
+          overwrite_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
