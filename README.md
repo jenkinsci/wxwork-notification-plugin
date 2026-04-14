@@ -1,4 +1,4 @@
-# 企业微信机器人通知插件 (WXWork Notification Plugin)
+# 企业微信群机器人通知插件 (WXWork Notification Plugin)
 
 <p align="center">
   <img src="docs/logo.png" alt="logo图片" width="300" />
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <strong>在 Jenkins Pipeline 和 FreeStyle 项目中轻松发送企业微信机器人消息</strong>
+  <strong>在 Jenkins Pipeline 和 FreeStyle 项目中轻松发送企业微信群机器人消息</strong>
 </p>
 
 ---

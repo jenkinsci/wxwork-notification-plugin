@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
     lang: "zh-CN",
     title: "企业微信通知插件",
-    description: "Jenkins 企业微信机器人通知插件文档",
+    description: "Jenkins 企业微信群机器人通知插件文档",
     base: "/wxwork-notification-plugin/",
     cleanUrls: true,
     themeConfig: {
@@ -29,7 +29,7 @@ export default defineConfig({
             },
             {
                 text: "附录",
-                items: [{ text: "企业微信机器人配置", link: "/guide/settings" }]
+                items: [{ text: "企业微信群机器人文档", link: "https://developer.work.weixin.qq.com/document/path/99110" }]
             }
         ],
         socialLinks: [{ icon: "github", link: "https://github.com/jenkinsci/wxwork-notification-plugin" }],

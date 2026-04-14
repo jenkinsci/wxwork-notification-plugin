@@ -11,6 +11,10 @@ FreeStyle 项目通过 UI 配置通知，无需编写代码。支持两种集成
 
 路径：`项目配置 -> 构建步骤 -> 增加构建步骤 -> 发送企业微信通知`
 
+![](../freestyle-images/build-steps-1.png)
+
+![](../freestyle-images/build-steps-2.png)
+
 字段说明：
 
 | 字段 | 说明 |
@@ -26,6 +30,10 @@ FreeStyle 项目通过 UI 配置通知，无需编写代码。支持两种集成
 ## Post-build Action（构建后操作）
 
 路径：`项目配置 -> 构建后操作 -> 增加构建后操作步骤 -> 发送企业微信通知`
+
+![](../freestyle-images/post-build-action-1.png)
+
+![](../freestyle-images/post-build-action-2.png)
 
 通知时机：
 
