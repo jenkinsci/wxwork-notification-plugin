@@ -27,3 +27,9 @@ release.properties
 
 .claude
 CLAUDE.md
+
+# Node.js / VitePress
+node_modules/
+.pnpm-store/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
