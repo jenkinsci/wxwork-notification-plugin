@@ -8,9 +8,7 @@ export default defineConfig({
     cleanUrls: true,
     themeConfig: {
         nav: [
-            { text: "指南", link: "/guide/install" },
-            { text: "配置", link: "/guide/configuration" },
-            { text: "Pipeline", link: "/guide/pipeline" }
+            { text: "Release", link: "https://github.com/jenkinsci/wxwork-notification-plugin/releases" }
         ],
         sidebar: [
             {
@@ -40,7 +38,7 @@ export default defineConfig({
         },
         footer: {
             message: "Released under the MIT License.",
-            copyright: "Copyright © wxwork-notification contributors"
+            copyright: "Copyright © wxwork-notification-plugin contributors"
         }
     }
 });

@@ -1,8 +1,6 @@
 # 企业微信机器人通知插件
 
-Jenkins 插件 `wxwork-notification`，用于在 FreeStyle 和 Pipeline 项目中发送企业微信机器人通知。
-
-![插件 Logo](./logo.png)
+Jenkins 插件 `wxwork-notification-plugin`，用于在 FreeStyle 和 Pipeline 项目中发送企业微信机器人通知。
 
 ## 文档导航
 
