@@ -2,13 +2,13 @@ import { defineConfig } from "vitepress";
 
 export default defineConfig({
     lang: "zh-CN",
-    title: "企业微信通知插件",
-    description: "Jenkins 企业微信群机器人通知插件文档",
+    title: "企业微信机器人通知插件",
+    description: "Jenkins 企业微信机器人通知插件文档",
     base: "/wxwork-notification-plugin/",
     cleanUrls: true,
     themeConfig: {
         nav: [
-            { text: "Release", link: "https://github.com/jenkinsci/wxwork-notification-plugin/releases" }
+            { text: "版本发布", link: "https://github.com/jenkinsci/wxwork-notification-plugin/releases" }
         ],
         sidebar: [
             {
@@ -29,7 +29,7 @@ export default defineConfig({
             },
             {
                 text: "附录",
-                items: [{ text: "企业微信群机器人文档", link: "https://developer.work.weixin.qq.com/document/path/99110" }]
+                items: [{ text: "企业微信机器人官方文档", link: "https://developer.work.weixin.qq.com/document/path/99110" }]
             }
         ],
         socialLinks: [{ icon: "github", link: "https://github.com/jenkinsci/wxwork-notification-plugin" }],
@@ -37,7 +37,7 @@ export default defineConfig({
             provider: "local"
         },
         footer: {
-            message: "Released under the MIT License.",
+            message: "基于 MIT License 开源。",
             copyright: "Copyright © wxwork-notification-plugin contributors"
         }
     }
