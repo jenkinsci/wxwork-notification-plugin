@@ -1,6 +1,10 @@
 # 企业微信机器人通知插件 (WXWork Notification Plugin)
 
 <p align="center">
+  <img src="docs/logo.png" alt="logo图片" width="300" />
+</p>
+
+<p align="center">
   <a href="https://plugins.jenkins.io/wxwork-notification/">
     <img src="https://img.shields.io/badge/Jenkins-Plugin-orange?style=flat-square&logo=jenkins" alt="Jenkins Plugin">
   </a>
@@ -9,10 +13,6 @@
   </a>
   <img src="https://img.shields.io/badge/Java-17%2F21-blue?style=flat-square&logo=java" alt="Java">
   <img src="https://img.shields.io/badge/Jenkins-%3E%3D2.479.3-red?style=flat-square&logo=jenkins" alt="Jenkins">
-</p>
-
-<p align="center">
-  <img src="docs/logo.png" alt="logo图片" width="300" />
 </p>
 
 <p align="center">
