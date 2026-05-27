@@ -39,10 +39,22 @@ public class DefaultHttpClient implements HttpClient {
 
             response.setStatusCode(httpResponse.statusCode());
             response.setBody(httpResponse.body());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            response.setStatusCode(500);
+            response.setErrorMessage("HTTP request interrupted");
         } catch (Exception e) {
             response.setStatusCode(500);
-            response.setErrorMessage(e.getMessage());
+            response.setErrorMessage(buildErrorMessage(e));
         }
         return response;
+    }
+
+    private static String buildErrorMessage(Exception e) {
+        String message = e.getMessage();
+        if (message == null || message.isBlank()) {
+            return e.getClass().getName();
+        }
+        return e.getClass().getName() + ": " + message;
     }
 }
