@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: refs/tags/${{ github.event.release.tag_name }}
 
@@ -91,7 +91,7 @@ jobs:
           echo "path=${files[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Upload HPI to GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: ${{ steps.artifact.outputs.path }}
           tag_name: ${{ github.event.release.tag_name }}
