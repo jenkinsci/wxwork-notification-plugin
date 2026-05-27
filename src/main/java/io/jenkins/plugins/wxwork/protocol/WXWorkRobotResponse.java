@@ -35,6 +35,9 @@ public class WXWorkRobotResponse implements RobotResponse {
 
     @Override
     public String errorMessage() {
+        if (errCode == null) {
+            return errMsg != null ? errMsg : "未知错误";
+        }
         return "[" + errCode + "] " + errMsg;
     }
 }

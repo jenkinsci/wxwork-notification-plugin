@@ -18,15 +18,16 @@
         </f:entry>
 
         <f:block>
-            <input type="button" value="${%robotTest}" class="wxwork-robot-test-button" style="float:right"
-                   data-request-url="${descriptor.descriptorFullUrl}"
-                   data-request-method="test"
-                   data-validate-button-with="${with}"/>
-            <div style="display:none;">
-                <l:progressAnimation/>
-                ${attrs.progress}
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px;">
+                <div class="wxwork-robot-test-result" style="flex: 1; min-height: 24px;"></div>
+                <div class="wxwork-robot-test-loading" style="display: none;">
+                    <l:progressAnimation/>
+                </div>
+                <input type="button" value="${%robotTest}" class="jenkins-button wxwork-robot-test-button"
+                       style="border: 2px solid var(--text-color);"
+                       data-request-url="${descriptor.descriptorFullUrl}"
+                       data-request-method="test"/>
             </div>
-            <div><!-- this is where the error message goes --></div>
         </f:block>
 
     </div>

@@ -4,6 +4,7 @@ import io.jenkins.plugins.wxwork.contract.*;
 import io.jenkins.plugins.wxwork.protocol.WXWorkRobotResponse;
 import io.jenkins.plugins.wxwork.protocol.WXWorkRobotRequest;
 import io.jenkins.plugins.wxwork.utils.JsonUtils;
+import java.nio.charset.StandardCharsets;
 
 /**
  * <p>WXWorkRobotMessageSender</p>
@@ -28,8 +29,19 @@ public class WXWorkRobotMessageSender extends AbstractRobotMessageSender {
     @Override
     protected RobotResponse wrapResponse(HttpResponse httpResponse) {
         if (httpResponse.statusCode() != 200) {
-            return new WXWorkRobotResponse(httpResponse.statusCode(), httpResponse.errorMessage());
+            WXWorkRobotResponse response = new WXWorkRobotResponse();
+            response.setErrCode(httpResponse.statusCode());
+            response.setErrMsg(httpResponse.errorMessage());
+            return response;
         }
-        return JsonUtils.toBean(httpResponse.body(), WXWorkRobotResponse.class);
+
+        WXWorkRobotResponse response = JsonUtils.toBean(httpResponse.body(), WXWorkRobotResponse.class);
+        if (response == null || response.getErrCode() == null
+                ||  response.getErrMsg() == null || response.getErrMsg().isEmpty()) {
+            response = new WXWorkRobotResponse();
+            response.setErrCode(500);
+            response.setErrMsg(httpResponse.body() != null ? new String(httpResponse.body(), StandardCharsets.UTF_8) : "响应数据解析失败");
+        }
+        return response;
     }
 }
