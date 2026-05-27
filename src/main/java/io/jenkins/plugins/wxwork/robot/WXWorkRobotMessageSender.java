@@ -28,7 +28,10 @@ public class WXWorkRobotMessageSender extends AbstractRobotMessageSender {
     @Override
     protected RobotResponse wrapResponse(HttpResponse httpResponse) {
         if (httpResponse.statusCode() != 200) {
-            return new WXWorkRobotResponse(httpResponse.statusCode(), httpResponse.errorMessage());
+            WXWorkRobotResponse response = new WXWorkRobotResponse();
+            response.setErrCode(httpResponse.statusCode());
+            response.setErrMsg(httpResponse.errorMessage());
+            return response;
         }
         return JsonUtils.toBean(httpResponse.body(), WXWorkRobotResponse.class);
     }

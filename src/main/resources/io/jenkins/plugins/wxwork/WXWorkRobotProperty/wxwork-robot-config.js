@@ -5,20 +5,6 @@
  * @author wxwork-notification-plugin
  */
 
-// 显示加载动画
-const showLoading = (el) => {
-    if (el) {
-        el.style.display = "block";
-    }
-};
-
-// 隐藏加载动画
-const hideLoading = (el) => {
-    if (el) {
-        el.style.display = "none";
-    }
-};
-
 /**
  * 构建测试查询参数
  * @param {HTMLElement} container - 配置容器元素
@@ -57,18 +43,22 @@ const sendTestMessage = async (button) => {
         return;
     }
 
-    const loadingBox = button?.nextSibling;
-    const infoBox = loadingBox?.nextSibling;
+    const resultBox = container?.querySelector('.wxwork-robot-test-result');
+    const loadingBox = container?.querySelector('.wxwork-robot-test-loading');
 
-    if (!loadingBox || !infoBox) {
+    if (!resultBox || !loadingBox) {
         console.error('找不到结果显示元素');
         return;
     }
 
     const requestUrl = `${url}/${method}${buildTestQuery(container)}`;
 
+    // 禁用按钮，防止重复点击
+    button.disabled = true;
+
     try {
-        showLoading(loadingBox);
+        loadingBox.style.display = "block";
+        resultBox.innerHTML = '';
 
         const response = await fetch(requestUrl, {
             method: 'GET',
@@ -80,22 +70,23 @@ const sendTestMessage = async (button) => {
         const responseText = await response.text();
 
         if (response.ok) {
-            infoBox.innerHTML = responseText;
+            resultBox.innerHTML = responseText;
         } else {
-            infoBox.innerHTML = `测试失败: ${response.status} ${response.statusText || '测试异常!'}`;
+            resultBox.innerHTML = `<span style="color:#d32f2f;">测试失败: ${response.status} ${response.statusText || '请求异常'}</span>`;
         }
     } catch (error) {
         console.error('发送测试请求失败:', error);
-        infoBox.innerHTML = `网络错误: ${error.message || '请求失败!'}`;
+        resultBox.innerHTML = `<span style="color:#d32f2f;">网络错误: ${error.message || '请求失败'}</span>`;
     } finally {
-        hideLoading(loadingBox);
+        loadingBox.style.display = "none";
+        button.disabled = false;
     }
 };
 
 // 使用事件委托监听测试按钮点击
 document.addEventListener('click', (event) => {
     const button = event.target.closest('.wxwork-robot-test-button');
-    if (button) {
+    if (button && !button.disabled) {
         event.preventDefault();
         sendTestMessage(button);
     }
