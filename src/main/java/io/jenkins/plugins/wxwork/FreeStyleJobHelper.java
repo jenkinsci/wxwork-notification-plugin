@@ -92,8 +92,10 @@ public final class FreeStyleJobHelper {
             expandedImageUrl = JenkinsUtils.expandAll(build, workspace, listener, imageUrl);
         }
 
-        // 获取构建执行人信息
-        RunUser runUser = JenkinsUtils.getRunUser(build, listener);
+        // 仅在需要 @ 构建执行人时读取用户资料；手机号不是发送普通通知的前置条件
+        RunUser runUser = atMe
+                ? JenkinsUtils.getRunUser(build, listener)
+                : RunUser.builder().build();
 
         // 构建 RobotPipelineVars 并发送
         var envVars = build.getEnvironment(listener);

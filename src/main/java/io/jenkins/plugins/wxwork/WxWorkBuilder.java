@@ -69,7 +69,14 @@ public class WxWorkBuilder extends Builder {
      */
     private String imageUrl;
 
-    private final transient RobotMessageSender robotSender = WXWorkRobotMessageSender.instance();
+    /**
+     * Stateless sender shared by all build-step instances.
+     *
+     * <p>Build steps are persisted and restored by Jenkins. Keeping the sender in a
+     * transient instance field leaves it {@code null} after XStream deserialization,
+     * because field initializers are not guaranteed to run while restoring a job.</p>
+     */
+    private static final RobotMessageSender ROBOT_SENDER = WXWorkRobotMessageSender.instance();
 
     @DataBoundConstructor
     public WxWorkBuilder(String robot) {
@@ -109,7 +116,7 @@ public class WxWorkBuilder extends Builder {
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         Set<String> atSet = FreeStyleJobHelper.parseAtSet(at);
-        FreeStyleJobHelper.sendMessage(build, listener, robotSender, robot, type, content, atMe, atAll, atSet, imageUrl);
+        FreeStyleJobHelper.sendMessage(build, listener, ROBOT_SENDER, robot, type, content, atMe, atAll, atSet, imageUrl);
         return true;
     }
 

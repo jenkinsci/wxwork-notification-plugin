@@ -84,17 +84,21 @@ public class JenkinsUtils {
             user = User.getById(userIdCause.getUserId(), false);
         }
         if (user == null) {
-            listener.error("未获取到构建人信息，将尝试从构建信息中模糊匹配。");
+            listener.getLogger().println("WXWORK: 未获取到构建人信息，跳过 @ 构建执行人。");
             executorName = run.getCauses().stream().map(Cause::getShortDescription).collect(Collectors.joining());
         } else {
             executorName = user.getDisplayName();
             WXWorkUserExtensionProperty executorProperty = user.getProperty(WXWorkUserExtensionProperty.class);
             if (executorProperty == null) {
-                listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
+                listener.getLogger().printf(
+                        "WXWORK: 用户【%s】未设置企业微信手机号，跳过 @ 构建执行人。可前往 %s 添加。%n",
+                        executorName, user.getAbsoluteUrl() + "/configure");
             } else {
                 executorMobile = executorProperty.getMobile();
                 if (StrUtils.isBlank(executorMobile)) {
-                    listener.error("用户【%s】暂未设置手机号码，请前往 %s 添加。", executorName, user.getAbsoluteUrl() + "/configure");
+                    listener.getLogger().printf(
+                            "WXWORK: 用户【%s】未设置企业微信手机号，跳过 @ 构建执行人。可前往 %s 添加。%n",
+                            executorName, user.getAbsoluteUrl() + "/configure");
                 }
             }
         }

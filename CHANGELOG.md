@@ -33,6 +33,8 @@
 - 🎨 移除内联 `onclick` 事件处理器，改用 JavaScript 事件绑定
 
 ### Fixed
+- 🐛 修复 Jenkins 重载 FreeStyle 项目配置后消息发送器为空、导致通知步骤触发 `NullPointerException` 的问题
+- 🐛 未启用 `@构建执行人` 时不再读取用户手机号；启用后手机号缺失则跳过提醒且不再输出错误日志
 - 🐛 修复 FreeStyle 模式下 `atMe` 双重处理问题 — 删除手动将执行人手机号加入 at 列表的冗余逻辑，由 Transfer 层统一处理
 - 🐛 修复 FreeStyle 配置页面默认消息内容中 Jenkins 变量占位符（`${JOB_NAME}` 等）被 Jelly EL 求值为空字符串的问题
 - 🐛 修复文件名重复引用导致的 Jenkins 页面视图冲突问题 — 将 `config.js` 重命名为 `wxwork-robot-config.js`，避免与其他配置文件命名冲突

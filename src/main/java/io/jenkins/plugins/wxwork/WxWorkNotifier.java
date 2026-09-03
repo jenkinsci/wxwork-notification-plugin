@@ -113,7 +113,14 @@ public class WxWorkNotifier extends Notifier {
      */
     private String imageUrl;
 
-    private final transient RobotMessageSender robotSender = WXWorkRobotMessageSender.instance();
+    /**
+     * Stateless sender shared by all notifier instances.
+     *
+     * <p>Notifier instances are persisted and restored by Jenkins. A transient
+     * instance field is not restored from job configuration and may therefore be
+     * {@code null} after Jenkins reloads the job.</p>
+     */
+    private static final RobotMessageSender ROBOT_SENDER = WXWorkRobotMessageSender.instance();
 
     @DataBoundConstructor
     public WxWorkNotifier(String robot) {
@@ -229,7 +236,7 @@ public class WxWorkNotifier extends Notifier {
         }
 
         Set<String> atSet = FreeStyleJobHelper.parseAtSet(at);
-        FreeStyleJobHelper.sendMessage(build, listener, robotSender, robot, type, content, atMe, atAll, atSet, imageUrl);
+        FreeStyleJobHelper.sendMessage(build, listener, ROBOT_SENDER, robot, type, content, atMe, atAll, atSet, imageUrl);
         return true;
     }
 

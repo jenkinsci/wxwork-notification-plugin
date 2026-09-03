@@ -73,7 +73,7 @@ public class WXWorkStep extends Step {
     /**
      * <p>机器人推送</p>
      */
-    private final RobotMessageSender robotSender = WXWorkRobotMessageSender.instance();
+    private static final RobotMessageSender ROBOT_SENDER = WXWorkRobotMessageSender.instance();
 
     @DataBoundConstructor
     public WXWorkStep(String robot) {
@@ -126,7 +126,9 @@ public class WXWorkStep extends Step {
             listener.error("机器人[%s]配置找不到!", robot);
             return;
         }
-        RunUser runUser = JenkinsUtils.getRunUser(run, listener);
+        RunUser runUser = Boolean.TRUE.equals(this.atMe)
+                ? JenkinsUtils.getRunUser(run, listener)
+                : RunUser.builder().build();
         RobotPipelineVars pipelineVars = RobotPipelineVars.builder()
                 .run(run).envVars(envVars).workspace(workspace).listener(listener)
                 .runUser(runUser)
@@ -140,7 +142,7 @@ public class WXWorkStep extends Step {
             listener.error("不支持的消息!");
             return;
         }
-        RobotResponse robotResponse = robotSender.send(property, robotRequest);
+        RobotResponse robotResponse = ROBOT_SENDER.send(property, robotRequest);
         if (Objects.nonNull(robotResponse)) {
             if (robotResponse.isOk()) {
                 listener.getLogger().println("WXWORK: 微信机器人[" + property.name() + "]推送消息成功!");
